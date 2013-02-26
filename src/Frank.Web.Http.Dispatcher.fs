@@ -22,14 +22,21 @@ open System.Web.Http
 open System.Web.Http.Controllers
 open System.Web.Http.Dispatcher
 open System.Web.Http.Filters
+open System.Web.Http.Hosting
 open System.Web.Http.Properties
 open System.Web.Http.Routing
 open Frank.Web.Http.Controllers
 
 // Ultimately, `name` should be able to be a Discriminated Union. However, the generics are tricky at this time.
-type Resource(name: string, routeTemplate, actions, ?nestedResources: Resource[]) =
+type Resource(name: string, routeTemplate, actions, ?nestedResources) =
     let nestedResources = defaultArg nestedResources Array.empty
-    let groupFilters (filters: Collection<FilterInfo>) =
+
+    member x.Name = name
+    member x.RouteTemplate = routeTemplate
+    member x.Actions = actions
+    member x.NestedResources = nestedResources
+
+    static member private GroupFilters (filters: Collection<FilterInfo>) =
         if filters <> null && filters.Count > 0 then
             let rec split i (actionFilters, authFilters, exceptionFilters) =
                 let result =
@@ -46,10 +53,6 @@ type Resource(name: string, routeTemplate, actions, ?nestedResources: Resource[]
                 else result
             split 0 ([], [], [])
         else [], [], []
-    member x.Name = name
-    member x.RouteTemplate = routeTemplate
-    member x.Actions = actions
-    member x.NestedResources = nestedResources
 
     static member internal InvokeWithAuthFilters(actionContext, cancellationToken, filters, continuation) =
         Contract.Assert(actionContext <> null)
@@ -65,6 +68,25 @@ type Resource(name: string, routeTemplate, actions, ?nestedResources: Resource[]
             continuation
             filters
 
+    static member internal InvokeWithExceptionFilters(result: Task<HttpResponseMessage>, actionContext, cancellationToken, filters: IExceptionFilter list) =
+        Contract.Assert(result <> null)
+        Contract.Assert(actionContext <> null)
+
+        Async.StartAsTask(async {
+//            try
+                return! Async.AwaitTask result
+//            with
+//            | ex ->
+//                // TODO: Use AsyncSeq to lazily iterate. Return either the final response or the first exception.
+//                let executedContext = new HttpActionExecutedContext(actionContext, ex)
+//                for filter in filters do
+//                    let! _ = Async.AwaitIAsyncResult <| filter.ExecuteExceptionFilterAsync(executedContext, cancellationToken)
+//                    if executedContext.Response <> null then
+//                        return executedContext.Response
+//                    else
+//                        return executedContext.Exception
+        }, cancellationToken = cancellationToken)
+
     interface IHttpController with
         member x.ExecuteAsync(controllerContext, cancellationToken) =
             let controllerDescriptor = controllerContext.ControllerDescriptor
@@ -73,17 +95,28 @@ type Resource(name: string, routeTemplate, actions, ?nestedResources: Resource[]
             let actionDescriptor = actionSelector.SelectAction(controllerContext) :?> FrankHttpActionDescriptor
             let actionContext = new HttpActionContext(controllerContext, actionDescriptor)
             let filters = actionDescriptor.GetFilterPipeline()
-            let actionFilters, authFilters, exceptionFilters = groupFilters filters
-            let result =
+            let actionFilters, authFilters, exceptionFilters = Resource.GroupFilters filters
+            let authResult =
                 (Resource.InvokeWithAuthFilters(actionContext, cancellationToken, authFilters, fun () ->
                     // Ignore binding for now.
                     Resource.InvokeWithActionFilters(actionContext, cancellationToken, actionFilters, fun () ->
-                        // NOTE: This sucks; make it better
-                        Async.StartAsTask(actionDescriptor.AsyncExecute controllerContext, cancellationToken = cancellationToken)
-                        // TODO: Need to use Async.Catch to catch exceptions.
+                        Async.StartAsTask(async {
+                            try
+                                // No IHttpActionInvoker is necessary as we always return an HttpResponseMessage.
+                                // In this case, we also expose an Async<HttpResponseMessage> rather than the standard Task<obj>.
+                                return! actionDescriptor.AsyncExecute controllerContext
+                            with
+                            | :? HttpResponseException as ex -> 
+                                // Return the response from the HttpResponseException.
+                                let response = ex.Response
+                                // Ensure the response has the original request message.
+                                if response <> null && response.RequestMessage = null then
+                                    response.RequestMessage <- actionContext.Request
+                                return response
+                        }, cancellationToken = cancellationToken)
                     )()
                 )())
-            // TODO: attach exception filters; note that this is very bad to do...
+            let result = Resource.InvokeWithExceptionFilters(authResult, actionContext, cancellationToken, exceptionFilters)
             result
 
 type FrankControllerTypeResolver(resource: Resource) =
@@ -152,12 +185,20 @@ type FrankControllerDispatcher(configuration, resourceMappings: MappedResource[]
     member x.Configuration = configuration
 
     override x.SendAsync(request, cancellationToken) =
-        try
-            x.InternalSendAsync(request, cancellationToken)
-            // TODO: Catch exceptions
-        with
-        | ex -> // TODO: Handle errors
-            base.SendAsync(request, cancellationToken)
+        let task = async {
+            try
+                let! success = Async.AwaitTask <| x.InternalSendAsync(request, cancellationToken)
+                return success
+            with
+            | ex ->
+                let unwrappedException = ex.GetBaseException()
+                let httpResponseException = unwrappedException :?> HttpResponseException
+                if httpResponseException <> null then
+                    return httpResponseException.Response
+                else
+                    return request.CreateErrorResponse(HttpStatusCode.InternalServerError, unwrappedException)
+        }
+        Async.StartAsTask(task, cancellationToken = cancellationToken)
 
     member private x.InternalSendAsync(request, cancellationToken) =
         if request = null then
@@ -179,8 +220,12 @@ type FrankControllerDispatcher(configuration, resourceMappings: MappedResource[]
         // TODO: Appropriately handle other "error" scenarios such as 405 and 406.
         // TODO: Bake in an OPTIONS handler?
 
-        let config = request.GetConfiguration()
-        // TODO: Manage the Configuration in the request.Properties
+        let config = controllerDescriptor.Configuration
+        let requestConfig = request.GetConfiguration()
+        if requestConfig = null then
+            request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, config)
+        elif requestConfig <> config then
+            request.Properties.[HttpPropertyKeys.HttpConfigurationKey] <- config
 
         // Create context
         let controllerContext = new HttpControllerContext(config, routeData, request)
@@ -229,57 +274,3 @@ module Resource =
                 defaults = null,
                 constraints = null,
                 handler = dispatcher) |> ignore
-
-(*
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Home =
-    let actions: (HttpMethod * HttpApplication) list = [
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "Hello, world!"))
-    ]
-
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Contact =
-    let actions: (HttpMethod * HttpApplication) list = [
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-        (HttpMethod.Post, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-    ]
-
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Account =
-    let actions: (HttpMethod * HttpApplication) list = [
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-    ]
-
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Addresses =
-    let actions: (HttpMethod * HttpApplication) list = [
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-        (HttpMethod.Post, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-    ]
-
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Address =
-    let actions: (HttpMethod * HttpApplication) list = [
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-        (HttpMethod.Put, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-        (HttpMethod.Delete, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-    ]
-    
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Demo =
-    type RouteName =
-        | Home
-        | Contacts
-        | Account
-        | Addresses
-        | Address
-
-    let resourceTree =
-        Resource<_>(Home, "", Home.actions,
-          [ Resource<_>(Contacts, "contacts", Contact.actions)
-            Resource<_>(Account, "account", Account.actions,
-              [ Resource<_>(Addresses, "addresses", Addresses.actions,
-                  [ Resource<_>(Address, "{addressId}", Address.actions) ])
-              ])
-          ])
-*)
