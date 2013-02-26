@@ -55,7 +55,6 @@ type FrankHttpActionDescriptor(controllerDescriptor, actionName, app: HttpApplic
 /// The FrankControllerActionSelector pattern matches the HttpMethod and matches to the appropriate handler.
 type FrankControllerActionSelector() =
     // TODO: Custom action selector
-    // TODO: These are just placeholders; need a custom ControllerDescriptor
     let actionName = "GET"
     let app request = async { return new HttpResponseMessage() }
     interface IHttpActionSelector with
