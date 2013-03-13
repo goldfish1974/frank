@@ -18,37 +18,37 @@ open Frank.Web.Http.Dispatcher
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Home =
-    let actions: (HttpMethod * HttpApplication) list = [
+    let actions: HttpAction[] = [|
         (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "Hello, world!"))
-    ]
+    |]
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Contact =
-    let actions: (HttpMethod * HttpApplication) list = [
+    let actions: HttpAction[] = [|
         (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
         (HttpMethod.Post, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-    ]
+    |]
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Account =
-    let actions: (HttpMethod * HttpApplication) list = [
+    let actions: HttpAction[] = [|
         (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-    ]
+    |]
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Addresses =
-    let actions: (HttpMethod * HttpApplication) list = [
+    let actions: HttpAction[] = [|
         (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
         (HttpMethod.Post, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-    ]
+    |]
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Address =
-    let actions: (HttpMethod * HttpApplication) list = [
+    let actions: HttpAction[] = [|
         (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
         (HttpMethod.Put, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
         (HttpMethod.Delete, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-    ]
+    |]
     
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Demo =
@@ -69,7 +69,7 @@ module Demo =
               |])
           |])
 
-let baseUri = "http://127.0.0.1:1000"
+let baseUri = "http://127.0.0.1:1000/"
 let config = new System.Web.Http.SelfHost.HttpSelfHostConfiguration(baseUri)
 Resource.route(config, Demo.resourceTree)
 let server = new HttpSelfHostServer(config)

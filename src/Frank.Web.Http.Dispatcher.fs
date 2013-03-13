@@ -28,7 +28,7 @@ open System.Web.Http.Routing
 open Frank.Web.Http.Controllers
 
 // Ultimately, `name` should be able to be a Discriminated Union. However, the generics are tricky at this time.
-type Resource(name: string, routeTemplate, actions, ?nestedResources) =
+type Resource(name: string, routeTemplate, actions: HttpAction[], ?nestedResources) =
     let nestedResources = defaultArg nestedResources Array.empty
 
     member x.Name = name
@@ -73,18 +73,24 @@ type Resource(name: string, routeTemplate, actions, ?nestedResources) =
         Contract.Assert(actionContext <> null)
 
         Async.StartAsTask(async {
-//            try
+            try
                 return! Async.AwaitTask result
-//            with
-//            | ex ->
-//                // TODO: Use AsyncSeq to lazily iterate. Return either the final response or the first exception.
-//                let executedContext = new HttpActionExecutedContext(actionContext, ex)
-//                for filter in filters do
-//                    let! _ = Async.AwaitIAsyncResult <| filter.ExecuteExceptionFilterAsync(executedContext, cancellationToken)
-//                    if executedContext.Response <> null then
-//                        return executedContext.Response
-//                    else
-//                        return executedContext.Exception
+            with
+            | ex ->
+                let executedContext = new HttpActionExecutedContext(actionContext, ex)
+                let rec loop response (filters: IExceptionFilter list) = async {
+                    match filters with
+                    | [] -> return response
+                    | filter::filters ->
+                        let! _ = Async.AwaitIAsyncResult <| filter.ExecuteExceptionFilterAsync(executedContext, cancellationToken)
+                        if executedContext.Response <> null then
+                            return! loop executedContext.Response filters
+                        else
+                            // Return immediately with an error response and status code 500.
+                            // TODO: Can we make the status code configurable or intelligent?
+                            return executedContext.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, executedContext.Exception)
+                }
+                return! loop Unchecked.defaultof<HttpResponseMessage> filters
         }, cancellationToken = cancellationToken)
 
     interface IHttpController with
@@ -140,15 +146,17 @@ type FrankControllerSelector(configuration: HttpConfiguration, controllerMapping
         if request = null then raise <| ArgumentNullException("request")
         let routeData = request.GetRouteData()
         if routeData = null then Unchecked.defaultof<_> else
-        let success, controllerName = routeData.Values.TryGetValue(ControllerKey)
-        controllerName :?> string
+        routeData.Route.RouteTemplate
+//        let success, controllerName = routeData.Values.TryGetValue(ControllerKey)
+//        controllerName :?> string
 
     member x.SelectController(request) =
         if request = null then
             raise <| ArgumentNullException("request")
 
         let controllerName = x.GetControllerName request
-        if String.IsNullOrEmpty controllerName then
+//        if String.IsNullOrEmpty controllerName then
+        if controllerName = null then
             raise <| new HttpResponseException(request.CreateErrorResponse(HttpStatusCode.NotFound, request.RequestUri.AbsoluteUri))
 
         let success, controllerDescriptor = controllerMapping.TryGetValue(controllerName)
@@ -165,22 +173,20 @@ type FrankControllerDescriptor(configuration, resource: Resource) =
     inherit HttpControllerDescriptor(configuration, resource.Name, resource.GetType())
     override x.CreateController(request) = resource :> IHttpController
     static member Create(configuration, resource) =
-        new FrankControllerDescriptor(configuration, resource) :> HttpControllerDescriptor
+        let controllerDescriptor = new FrankControllerDescriptor(configuration, resource) :> HttpControllerDescriptor
+        controllerDescriptor.Properties.[Constants.actions] <- resource.Actions
+        controllerDescriptor
 
 type MappedResource = {
     RouteTemplate : string
     Resource : Resource
 }
 
-type FrankControllerDispatcher(configuration, resourceMappings: MappedResource[]) =
+type FrankControllerDispatcher(configuration: HttpConfiguration) =
     inherit HttpMessageHandler()
     do if configuration = null then raise <| new ArgumentNullException("configuration")
 
-    let controllerMapping =
-        resourceMappings
-        |> Array.map (fun x -> x.Resource.Name, FrankControllerDescriptor.Create(configuration, x.Resource))
-        |> dict
-    let controllerSelector = new FrankControllerSelector(configuration, controllerMapping)
+    let controllerSelector = configuration.Services.GetHttpControllerSelector()
 
     member x.Configuration = configuration
 
@@ -213,10 +219,10 @@ type FrankControllerDispatcher(configuration, resourceMappings: MappedResource[]
         let routeData = request.GetRouteData()
         Contract.Assert(routeData <> null)
         let controllerDescriptor = controllerSelector.SelectController(request)
-        if controllerDescriptor <> null then errorTask "Resource not selected" else
+        if controllerDescriptor = null then errorTask "Resource not selected" else
 
         let controller = controllerDescriptor.CreateController(request)
-        if controller <> null then errorTask "No controller created" else
+        if controller = null then errorTask "No controller created" else
         // TODO: Appropriately handle other "error" scenarios such as 405 and 406.
         // TODO: Bake in an OPTIONS handler?
 
@@ -265,7 +271,16 @@ module Resource =
     let route (configuration: HttpConfiguration, resource) =
         let routes = configuration.Routes
         let resourceMappings = flatten resource 
-        let dispatcher = new FrankControllerDispatcher(configuration, resourceMappings)
+        let controllerMapping =
+            resourceMappings
+            |> Array.map (fun x -> x.RouteTemplate, FrankControllerDescriptor.Create(configuration, x.Resource))
+            |> dict
+        configuration.Services.Replace(typeof<IHttpControllerSelector>, new FrankControllerSelector(configuration, controllerMapping))
+        configuration.Services.Replace(typeof<IHttpControllerTypeResolver>, new FrankControllerTypeResolver(resource))
+        configuration.Services.Replace(typeof<IHttpActionSelector>, new FrankControllerActionSelector())
+        // TODO: Can we remove unused services objects? Does that have any benefit?
+        // TODO: Investigate whether or not this is necessary anymore.
+        let dispatcher = new FrankControllerDispatcher(configuration)
         for mappedResource in resourceMappings do
             // TODO: probably want our own shortcut to allow embedding regex's in the route template.
             routes.MapHttpRoute(
