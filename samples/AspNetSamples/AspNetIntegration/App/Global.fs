@@ -6,6 +6,7 @@ open System.Net.Http
 open System.Web.Http
 open System.Web.Routing
 open Frank
+open Frank.Web.Http.Dispatcher
 
 type WebApiApplication() =
     inherit System.Web.HttpApplication()
@@ -29,10 +30,7 @@ type WebApiApplication() =
     // Respond with the request content, if any.
     let echo = runConneg formatters <| fun request -> request.Content.AsyncReadAsString()
     
-    let resource = route "/" (get helloWorld <|> post echo)
-
-    // Mount the app and add a middleware to support HEAD requests.
-    let app = merge [ resource ] //|> Middleware.head
+    let resource = Resource("Home", "", [| get helloWorld; post echo |])
     
     member x.Start() =
-        GlobalConfiguration.Configuration.Register app
+        resource |> Resource.route GlobalConfiguration.Configuration

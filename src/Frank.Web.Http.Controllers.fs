@@ -19,13 +19,7 @@ open System.Threading.Tasks
 open System.Web.Http
 open System.Web.Http.Controllers
 open System.Web.Http.ModelBinding
-
-/// An HttpApplication is simply a function that receives an HTTP request message
-/// and returns an HTTP response message asynchronously.
-type HttpApplication = HttpRequestMessage -> Async<HttpResponseMessage>
-
-/// An HttpAction maps an HttpApplication to a specific HTTP method.
-type HttpAction = HttpMethod * HttpApplication
+open Frank
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Constants =

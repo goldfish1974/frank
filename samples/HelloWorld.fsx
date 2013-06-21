@@ -3,8 +3,11 @@
 #r "System.Net.Http.Formatting"
 #r "System.Web.Http"
 #r "System.Web.Http.SelfHost"
+#r @"..\packages\FSharpx.Core.1.6.83\lib\40\Fsharpx.Core.dll"
+#r @"..\packages\FSharpx.Http.1.6.83\lib\40\Fsharpx.Http.dll"
 #r @"..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll"
 #load @"..\src\Frank.Net.Http.fs"
+#load @"..\src\Frank.fs"
 #load @"..\src\Frank.Web.Http.Controllers.fs"
 #load @"..\src\Frank.Web.Http.Dispatcher.fs"
 
@@ -13,41 +16,42 @@ open System.Net
 open System.Net.Http
 open System.Web.Http
 open System.Web.Http.SelfHost
+open Frank
 open Frank.Web.Http.Controllers
 open Frank.Web.Http.Dispatcher
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Home =
     let actions: HttpAction[] = [|
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "Hello, world!"))
+        get <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "Hello, world!")
     |]
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Contact =
     let actions: HttpAction[] = [|
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-        (HttpMethod.Post, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
+        get <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>")
+        post <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>")
     |]
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Account =
     let actions: HttpAction[] = [|
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
+        get <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>")
     |]
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Addresses =
     let actions: HttpAction[] = [|
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-        (HttpMethod.Post, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
+        get <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>")
+        post <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>")
     |]
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Address =
     let actions: HttpAction[] = [|
-        (HttpMethod.Get, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-        (HttpMethod.Put, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
-        (HttpMethod.Delete, fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>"))
+        get <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>")
+        put <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>")
+        delete <| fun request -> async.Return <| request.CreateResponse(HttpStatusCode.OK, "<html></html>")
     |]
     
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -71,7 +75,7 @@ module Demo =
 
 let baseUri = "http://127.0.0.1:1000/"
 let config = new System.Web.Http.SelfHost.HttpSelfHostConfiguration(baseUri)
-Resource.route(config, Demo.resourceTree)
+Demo.resourceTree |> Resource.route config
 let server = new HttpSelfHostServer(config)
 server.OpenAsync().Wait()
 

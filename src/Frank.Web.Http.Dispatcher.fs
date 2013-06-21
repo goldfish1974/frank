@@ -25,6 +25,7 @@ open System.Web.Http.Filters
 open System.Web.Http.Hosting
 open System.Web.Http.Properties
 open System.Web.Http.Routing
+open Frank
 open Frank.Web.Http.Controllers
 
 // Ultimately, `name` should be able to be a Discriminated Union. However, the generics are tricky at this time.
@@ -267,8 +268,8 @@ module Resource =
 
     /// Flattens the resource tree, merging route path segments into complete routes.
     [<CompiledName("MapResourceRoute")>]
-    [<System.Runtime.CompilerServices.Extension>]
-    let route (configuration: HttpConfiguration, resource) =
+    let route (configuration: HttpConfiguration) resource =
+        // Would we be better off avoiding a lot of this and just mapping handlers to route paths? Will people use filters with this approach?
         let routes = configuration.Routes
         let resourceMappings = flatten resource 
         let controllerMapping =

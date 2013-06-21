@@ -52,6 +52,9 @@ You'll see the signatures above are still mostly present, though they have been 
 // An application takes an `HttpRequestMessage` and returns an `HttpRequestHandler` asynchronously.
 type HttpApplication = HttpRequestMessage -> Async<HttpResponseMessage>
 
+/// An HttpAction maps an HttpApplication to a specific HTTP method.
+type HttpAction = HttpMethod * HttpApplication
+
 // ## HTTP Response Header Combinators
 
 // Headers are added using the `Reader` monad. If F# allows mutation, why do we need the monad?
@@ -337,180 +340,13 @@ let runConneg formatters (f: HttpRequestMessage -> Async<_>) =
           return respond HttpStatusCode.OK <| ``Content-Type`` mediaType *> ``Vary`` "Accept" <| formattedBody }
     | _ -> ``406 Not Acceptable`` request
 
-// ## HTTP Resources
-
-// HTTP resources expose an resource handler function at a given uri.
-// In the common MVC-style frameworks, this would roughly correspond
-// to a `Controller`. Resources should represent a single entity type,
-// and it is important to note that a `Foo` is not the same entity
-// type as a `Foo list`, which is where most MVC approaches go wrong. 
-// The optional `uriMatcher` parameter allows the consumer to provide
-// a more advanced uri matching algorithm, such as one using regular
-// expressions.
-// 
-// Additional notes:
-//   Should this type subclass HttpServer? If it did it could get
-//   it's own configration and have its own route table. I'm not
-//   convinced System.Web.Routing is worth it, but it's an option.
-type HttpResource(uriTemplate, methods, handler) =
-  // TODO: Swap this out for http://uritemplates.codeplex.com/ when matching is implemented.
-  let mutable uriTemplate = UriTemplate(uriTemplate)
-  with
-  member x.Methods = methods
-  member x.Match(request: HttpRequestMessage) =
-    let baseUri = Uri(request.RequestUri.GetLeftPart(UriPartial.Authority))
-    match uriTemplate.Match(baseUri, request.RequestUri) with
-    | null -> false
-    | result ->
-        let coll = NameValueCollection.concat result.BoundVariables result.QueryParameters
-        request.Properties.["params"] <-
-          coll.AllKeys |> Array.collect (fun k -> coll.GetValues k |> Array.map (fun v -> k, v))
-        true
-
-  // With the ``405 Method Not Allowed`` function, resources can correctly respond to messages.
-  // Therefore, we'll extend the `HttpResource` with an `Invoke` method.
-  // Without the `Invoke` method, the `HttpResource` is left without any true
-  // representation of an `HttpApplication`.
-  // 
-  // Also note that the methods will always be looked up using the latest set. This could
-  // probably be memoized so as to save a bit of time, but it allows us to ensure that all
-  // available methods are reported.
-  member x.Invoke(request: HttpRequestMessage) =
-    // TODO: Should the signature of a handler change to always accept a params array?
-//    let params' = request.Properties.["params"] :?> (string * string)[]
-//    match handler request params' with
-    match handler request with
-    | Some h -> h
-    | _ -> ``405 Method Not Allowed`` x.Methods request
-
-let private makeHandler(httpMethod, handler) =
-  function (request: HttpRequestMessage) when request.Method.Method = httpMethod -> Some(handler request)
-         | _ -> None
-
-// Helpers to more easily map `HttpApplication` functions to methods to be composed into `HttpResource`s.
-let mapResourceHandler(httpMethod, handler) = [httpMethod], makeHandler(httpMethod, handler)
-let get handler = mapResourceHandler(HttpMethod.Get.Method, handler)
-let post handler = mapResourceHandler(HttpMethod.Post.Method, handler)
-let put handler = mapResourceHandler(HttpMethod.Put.Method, handler)
-let delete handler = mapResourceHandler(HttpMethod.Delete.Method, handler)
+// Helpers for mapping HTTP methods to handlers
+let get handler = HttpMethod.Get, handler
+let post handler = HttpMethod.Post, handler
+let put handler : HttpAction = HttpMethod.Put, handler
+let delete handler : HttpAction = HttpMethod.Delete, handler
 
 // Helper to more easily access URL params
 let getParam (request:HttpRequestMessage) key =
     request.Properties.["params"] |> unbox 
     |> Array.find (fun p -> fst p = key.ToString().ToUpper()) |> snd
-
-// We can use several methods to merge multiple handlers together into a single resource.
-// Our chosen mechanism here is merging functions into a larger function of the same signature.
-// This allows us to create resources as follows:
-// 
-//     let resource = get app1 <|> post app2 <|> put app3 <|> delete app4
-//
-// The intent here is to build a resource, with at most one handler per HTTP method. This goes
-// against a lot of the "RESTful" approaches that just merge a bunch of method handlers at
-// different URI addresses.
-let orElse left right =
-  fst left @ fst right,
-  fun request -> Option.orElse (snd left request) (snd right request)
-let inline (<|>) left right = orElse left right
-
-let route uri handler =
-  HttpResource(uri, fst handler, snd handler)
-
-let routeResource uri handlers =
-  route uri <| Seq.reduce orElse handlers
-
-(* ## HTTP Applications *)
-
-let ``404 Not Found`` : HttpApplication =
-  fun request -> async {
-    return respond HttpStatusCode.NotFound ignore <| new StringContent("404 Not Found") }
-
-let findApplicationFor resources (request: HttpRequestMessage) =
-  let resource = Seq.tryFind (fun (r: HttpResource) -> r.Match request) resources
-  resource |> Option.map (fun r -> r.Invoke)
-
-#if DEBUG
-let stub request = async { return new HttpResponseMessage(RequestMessage = request) }
-let resource1 = route "/" (get stub <|> post stub)
-let resource2 = route "/stub" <| get stub
-let resource3 = route "/stub/{id}" <| get stub
-
-[<Test>]
-let ``test should find nothing at GET /baduri``() =
-  let request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://example.org/baduri"))
-  let handler = findApplicationFor [resource1; resource2] request
-  test <@ handler.IsNone @>
-
-[<Test>]
-let ``test should find stub at GET /``() =
-  let request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://example.org/"))
-  let handler = findApplicationFor [resource1; resource2] request
-  test <@ handler.IsSome @>
-
-[<Test>]
-let ``test should find stub at POST /``() =
-  let request = new HttpRequestMessage(HttpMethod.Post, new Uri("http://example.org/")) 
-  let handler = findApplicationFor [resource1; resource2] request
-  test <@ handler.IsSome @>
-
-[<Test>]
-let ``test should find stub at GET /stub``() =
-  let request = new HttpRequestMessage(HttpMethod.Post, new Uri("http://example.org/"))
-  let handler = findApplicationFor [resource1; resource2] request
-  test <@ handler.IsSome @>
-#endif
-
-let mergeWithNotFound notFoundHandler (resources: #seq<HttpResource>) : HttpApplication =
-  fun request ->
-    let handler = findApplicationFor resources request |> (flip defaultArg) notFoundHandler
-    handler request
-
-let merge resources = mergeWithNotFound ``404 Not Found`` resources
-
-// TODO: Need to provide a way to adjust the UriTemplate of each resource as it is nested deeper.
-// NOTE: The UriTemplateMatch includes path segments that might be helpful for this purpose.
-
-#if DEBUG
-[<Test>]
-let ``test should return 404 Not Found as the handler``() =
-  let app = merge []
-  let request = new HttpRequestMessage()
-  let response = app request |> Async.RunSynchronously
-  test <@ response.StatusCode = HttpStatusCode.NotFound @>
-
-[<Test>]
-let ``test should return a param value``() =
-  let app = merge [resource3]
-  let request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://example.org/stub/1"))  
-  let response = app request |> Async.RunSynchronously 
-  let result = getParam response.RequestMessage "id" 
-  test <@ result = "1" @>
-
-[<Test>]
-let ``test should return 404 Not Found as the handler when other resources are available``() =
-  let app = merge [resource1; resource2]
-  let request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://example.org/baduri"))
-  let response = app request |> Async.RunSynchronously
-  test <@ response.StatusCode = HttpStatusCode.NotFound @>
-
-[<Test>]
-let ``test should return stub at GET /``() =
-  let app = merge [resource1; resource2]
-  let request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://example.org/"))
-  let response = app request |> Async.RunSynchronously
-  test <@ response.StatusCode = HttpStatusCode.OK @>
-
-[<Test>]
-let ``test should return stub at POST /``() =
-  let app = merge [resource1; resource2]
-  let request = new HttpRequestMessage(HttpMethod.Post, new Uri("http://example.org/")) 
-  let response = app request |> Async.RunSynchronously
-  test <@ response.StatusCode = HttpStatusCode.OK @>
-
-[<Test>]
-let ``test should return stub at GET /stub``() =
-  let app = merge [resource1; resource2]
-  let request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://example.org/stub"))
-  let response = app request |> Async.RunSynchronously
-  test <@ response.StatusCode = HttpStatusCode.OK @>
-#endif
