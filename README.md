@@ -18,14 +18,6 @@ When starting with Frank, I wanted to try to find a way to define an HTTP applic
 using pure functions and function composition. The closest I found was the following:
 
     type HttpApplication = HttpRequestMessage -> Async<HttpResponseMessage>
-    
-    let orElse left right = fun request -> Option.orElse (left request) (right request)
-    let inline (<|>) left right = orElse left right
-
-The last of these was a means for merging multiple applications together into a single
-application. This allowed for a nice symmetry and elegance in that everything you composed
-would always have the same signature. Additional functions would allow you to map
-applications to specific methods or uri patterns.
 
 A "Hello, world!" application using these signatures would look like the following:
 
@@ -69,16 +61,16 @@ actually executing the application. However, once again, there are limitations. 
 structure accurately represents a resource, but it does not allow for multiple resources
 to coexist side-by-side. Another tuple of uri pattern matching expressions could wrap
 a list of these method * handler tuples, but at this point I realized I would be better
-served by using real types and added an `HttpResource` type to ease the type burden.
+served by using real types and added an `Resource` type to ease the type burden.
 
 HTTP resources expose an resource handler function at a given uri.
 In the common MVC-style frameworks, this would roughly correspond
-to a `Controller`. Resources should represent a single entity type,
+to an `ApiController`. Resources should represent a single entity type,
 and it is important to note that a `Foo` is not the same entity
 type as a `Foo list`, which is where the typical MVC approach goes wrong. 
 
 The ``405 Method Not Allowed`` function allows a resource to correctly respond to messages.
-Therefore, we extend the `HttpResource` with an `Invoke` method.
+Therefore, a `Resource` will respond with a `405` response when it does not respond to a method.
 Also note that the methods will always be looked up using the latest set. This could
 probably be memoized so as to save a bit of time, but it allows us to ensure that all
 available methods are reported.
@@ -112,18 +104,18 @@ about which it cares and isn't bothered by the transformations.
           return echo2Respond <| new StringContent(body)
       }
 
-Create a `HttpResource` instance at the root of the site that responds to `POST`.
+Create a `Resource` instance at the root of the site that responds to `POST`.
 
-      let resource = route "/" <| post echo2
+      let resource = Resource("Default", "", [| post echo2 |])
 
 Other combinators are available to handle other scenarios, such as:
 
 1. Content Negotiation
 2. Building Responses
-3. Combining applications into resources
-4. Combining resources into applications
 
 Check the samples for more examples of these combinators.
+
+**NOTE that composition back into an `HttpApplication` is still underway.**
 
 ### Define a Middleware
 
@@ -145,14 +137,12 @@ The most likely place to insert middlewares is the outer edge of your applicatio
 
 Frank will run on any hosting platform that supports the
 [Web API](http://asp.net/web-api/) library. To hook up your Frank application,
-use the `Register` extension method Frank adds to instances of `HttpConfiguration`.
+use the `Resource.route` function and pass it your `HttpConfiguration` and root `Resource`.
 
-    config.Register app
+    Resource.route config app
 
-This extension adds a default route to your `HttpConfiguration` instance and
-adds a `DelegatingHandler` instance to the `HttpConfiguration.MessageHandlers` collection.
-If you want to add a Frank application to an existing Web API app, you should
-explicitly add your route and handler, as order is very important.
+This function makes a lot of changes to your configuration at present, so don't expect
+to be able to use this in conjunction with other Web API approaches.
 
 ## TODO
 
