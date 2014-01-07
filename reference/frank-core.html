@@ -49,19 +49,6 @@
     <tbody>
         <tr>
           <td class="type-name">
-            <a href="frank-core-emptycontent.html">EmptyContent</a>
-          </td>
-          <td class="xmldoc"><p>An empty <code>HttpContent</code> type.</p>
-</td>
-        </tr>
-        <tr>
-          <td class="type-name">
-            <a href="frank-core-httpapplication.html">HttpApplication</a>
-          </td>
-          <td class="xmldoc"></td>
-        </tr>
-        <tr>
-          <td class="type-name">
             <a href="frank-core-httpresponseheadersbuilder.html">HttpResponseHeadersBuilder</a>
           </td>
           <td class="xmldoc"></td>
@@ -80,10 +67,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '28', 28)" onmouseover="showTip(event, '28', 28)">
+          <code onmouseout="hideTip(event, '15', 15)" onmouseover="showTip(event, '15', 15)">
             ( 405 Method Not Allowed ) (...)
           </code>
-          <div class="tip" id="28">
+          <div class="tip" id="15">
             <strong>Signature:</strong>allowedMethods:seq&lt;HttpMethod&gt; -&gt; HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;<br />
                       </div>
         </td>
@@ -94,10 +81,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '29', 29)" onmouseover="showTip(event, '29', 29)">
+          <code onmouseout="hideTip(event, '16', 16)" onmouseover="showTip(event, '16', 16)">
             ( 406 Not Acceptable ) request
           </code>
-          <div class="tip" id="29">
+          <div class="tip" id="16">
             <strong>Signature:</strong>request:HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;<br />
                       </div>
         </td>
@@ -108,8 +95,190 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '30', 30)" onmouseover="showTip(event, '30', 30)">
+          <code onmouseout="hideTip(event, '17', 17)" onmouseover="showTip(event, '17', 17)">
             ( Accept-Ranges ) x response
+          </code>
+          <div class="tip" id="17">
+            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '18', 18)" onmouseover="showTip(event, '18', 18)">
+            ( Cache-Control ) x response
+          </code>
+          <div class="tip" id="18">
+            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '19', 19)" onmouseover="showTip(event, '19', 19)">
+            ( Content-Disposition ) x response
+          </code>
+          <div class="tip" id="19">
+            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '20', 20)" onmouseover="showTip(event, '20', 20)">
+            ( Content-Encoding ) x response
+          </code>
+          <div class="tip" id="20">
+            <strong>Signature:</strong>x:seq&lt;string&gt; -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '21', 21)" onmouseover="showTip(event, '21', 21)">
+            ( Content-Language ) x response
+          </code>
+          <div class="tip" id="21">
+            <strong>Signature:</strong>x:seq&lt;string&gt; -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '22', 22)" onmouseover="showTip(event, '22', 22)">
+            ( Content-Length ) x response
+          </code>
+          <div class="tip" id="22">
+            <strong>Signature:</strong>x:int64 -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '23', 23)" onmouseover="showTip(event, '23', 23)">
+            ( Content-Location ) x response
+          </code>
+          <div class="tip" id="23">
+            <strong>Signature:</strong>x:Uri -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '24', 24)" onmouseover="showTip(event, '24', 24)">
+            ( Content-MD5 ) x response
+          </code>
+          <div class="tip" id="24">
+            <strong>Signature:</strong>x:byte [] -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '25', 25)" onmouseover="showTip(event, '25', 25)">
+            ( Content-Range ) (...)
+          </code>
+          <div class="tip" id="25">
+            <strong>Signature:</strong>from:int64 -&gt; _to:int64 -&gt; length:int64 -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '26', 26)" onmouseover="showTip(event, '26', 26)">
+            ( Content-Type ) x response
+          </code>
+          <div class="tip" id="26">
+            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '27', 27)" onmouseover="showTip(event, '27', 27)">
+            ( Last Modified ) x response
+          </code>
+          <div class="tip" id="27">
+            <strong>Signature:</strong>x:DateTimeOffset -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '28', 28)" onmouseover="showTip(event, '28', 28)">
+            ( Proxy-Authenticate ) x response
+          </code>
+          <div class="tip" id="28">
+            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '29', 29)" onmouseover="showTip(event, '29', 29)">
+            ( Retry-After ) x response
+          </code>
+          <div class="tip" id="29">
+            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '30', 30)" onmouseover="showTip(event, '30', 30)">
+            ( Transfer-Encoding ) x response
           </code>
           <div class="tip" id="30">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
@@ -123,7 +292,7 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '31', 31)" onmouseover="showTip(event, '31', 31)">
-            ( Cache-Control ) x response
+            ( WWW-Authenticate ) x response
           </code>
           <div class="tip" id="31">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
@@ -137,191 +306,9 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '32', 32)" onmouseover="showTip(event, '32', 32)">
-            ( Content-Disposition ) x response
-          </code>
-          <div class="tip" id="32">
-            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '33', 33)" onmouseover="showTip(event, '33', 33)">
-            ( Content-Encoding ) x response
-          </code>
-          <div class="tip" id="33">
-            <strong>Signature:</strong>x:seq&lt;string&gt; -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '34', 34)" onmouseover="showTip(event, '34', 34)">
-            ( Content-Language ) x response
-          </code>
-          <div class="tip" id="34">
-            <strong>Signature:</strong>x:seq&lt;string&gt; -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '35', 35)" onmouseover="showTip(event, '35', 35)">
-            ( Content-Length ) x response
-          </code>
-          <div class="tip" id="35">
-            <strong>Signature:</strong>x:int64 -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '36', 36)" onmouseover="showTip(event, '36', 36)">
-            ( Content-Location ) x response
-          </code>
-          <div class="tip" id="36">
-            <strong>Signature:</strong>x:Uri -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '37', 37)" onmouseover="showTip(event, '37', 37)">
-            ( Content-MD5 ) x response
-          </code>
-          <div class="tip" id="37">
-            <strong>Signature:</strong>x:byte [] -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '38', 38)" onmouseover="showTip(event, '38', 38)">
-            ( Content-Range ) (...)
-          </code>
-          <div class="tip" id="38">
-            <strong>Signature:</strong>from:int64 -&gt; _to:int64 -&gt; length:int64 -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '39', 39)" onmouseover="showTip(event, '39', 39)">
-            ( Content-Type ) x response
-          </code>
-          <div class="tip" id="39">
-            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '40', 40)" onmouseover="showTip(event, '40', 40)">
-            ( Last Modified ) x response
-          </code>
-          <div class="tip" id="40">
-            <strong>Signature:</strong>x:DateTimeOffset -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '41', 41)" onmouseover="showTip(event, '41', 41)">
-            ( Proxy-Authenticate ) x response
-          </code>
-          <div class="tip" id="41">
-            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '42', 42)" onmouseover="showTip(event, '42', 42)">
-            ( Retry-After ) x response
-          </code>
-          <div class="tip" id="42">
-            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '43', 43)" onmouseover="showTip(event, '43', 43)">
-            ( Transfer-Encoding ) x response
-          </code>
-          <div class="tip" id="43">
-            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '44', 44)" onmouseover="showTip(event, '44', 44)">
-            ( WWW-Authenticate ) x response
-          </code>
-          <div class="tip" id="44">
-            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '45', 45)" onmouseover="showTip(event, '45', 45)">
             Age x response
           </code>
-          <div class="tip" id="45">
+          <div class="tip" id="32">
             <strong>Signature:</strong>x:TimeSpan -&gt; response:HttpResponseMessage -&gt; unit<br />
                       </div>
         </td>
@@ -332,12 +319,12 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '46', 46)" onmouseover="showTip(event, '46', 46)">
+          <code onmouseout="hideTip(event, '33', 33)" onmouseover="showTip(event, '33', 33)">
             Allow allowedMethods response
           </code>
-          <div class="tip" id="46">
-            <strong>Signature:</strong>allowedMethods:&#39;?4916 -&gt; response:HttpResponseMessage -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?4916          </div>
+          <div class="tip" id="33">
+            <strong>Signature:</strong>allowedMethods:&#39;?4888 -&gt; response:HttpResponseMessage -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?4888          </div>
         </td>
         <td class="xmldoc">
         
@@ -346,10 +333,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '47', 47)" onmouseover="showTip(event, '47', 47)">
+          <code onmouseout="hideTip(event, '34', 34)" onmouseover="showTip(event, '34', 34)">
             Bytes bytes
           </code>
-          <div class="tip" id="47">
+          <div class="tip" id="34">
             <strong>Signature:</strong>bytes:byte [] -&gt; HttpContent<br />
                       </div>
         </td>
@@ -360,8 +347,190 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '48', 48)" onmouseover="showTip(event, '48', 48)">
+          <code onmouseout="hideTip(event, '35', 35)" onmouseover="showTip(event, '35', 35)">
             Connection x response
+          </code>
+          <div class="tip" id="35">
+            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '36', 36)" onmouseover="showTip(event, '36', 36)">
+            Date x response
+          </code>
+          <div class="tip" id="36">
+            <strong>Signature:</strong>x:DateTimeOffset -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '37', 37)" onmouseover="showTip(event, '37', 37)">
+            ETag tag isWeak response
+          </code>
+          <div class="tip" id="37">
+            <strong>Signature:</strong>tag:string -&gt; isWeak:bool -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '38', 38)" onmouseover="showTip(event, '38', 38)">
+            Expires x response
+          </code>
+          <div class="tip" id="38">
+            <strong>Signature:</strong>x:DateTimeOffset -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '39', 39)" onmouseover="showTip(event, '39', 39)">
+            findFormatterFor mediaType
+          </code>
+          <div class="tip" id="39">
+            <strong>Signature:</strong>mediaType:string -&gt; seq&lt;MediaTypeFormatter&gt; -&gt; MediaTypeFormatter<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '40', 40)" onmouseover="showTip(event, '40', 40)">
+            Form pairs
+          </code>
+          <div class="tip" id="40">
+            <strong>Signature:</strong>pairs:seq&lt;string * string&gt; -&gt; HttpContent<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '41', 41)" onmouseover="showTip(event, '41', 41)">
+            Formatted (s, encoding, mediaType)
+          </code>
+          <div class="tip" id="41">
+            <strong>Signature:</strong>(s:string * encoding:Encoding * mediaType:string) -&gt; HttpContent<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '42', 42)" onmouseover="showTip(event, '42', 42)">
+            formatWith mediaType formatter body
+          </code>
+          <div class="tip" id="42">
+            <strong>Signature:</strong>mediaType:string -&gt; formatter:MediaTypeFormatter -&gt; body:&#39;?4910 -&gt; HttpContent<br />
+                          <strong>Type parameters:</strong> '?4910          </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '43', 43)" onmouseover="showTip(event, '43', 43)">
+            IO stream
+          </code>
+          <div class="tip" id="43">
+            <strong>Signature:</strong>stream:Stream -&gt; HttpContent<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '44', 44)" onmouseover="showTip(event, '44', 44)">
+            Location x response
+          </code>
+          <div class="tip" id="44">
+            <strong>Signature:</strong>x:Uri -&gt; response:HttpResponseMessage -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '45', 45)" onmouseover="showTip(event, '45', 45)">
+            negotiateMediaType formatters request
+          </code>
+          <div class="tip" id="45">
+            <strong>Signature:</strong>formatters:IEnumerable&lt;MediaTypeFormatter&gt; -&gt; request:HttpRequestMessage -&gt; string option<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '46', 46)" onmouseover="showTip(event, '46', 46)">
+            OK headers content
+          </code>
+          <div class="tip" id="46">
+            <strong>Signature:</strong>headers:(HttpResponseMessage -&gt; unit) -&gt; content:&#39;?4902 option -&gt; HttpRequestMessage -&gt; HttpResponseMessage<br />
+                          <strong>Type parameters:</strong> '?4902          </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '47', 47)" onmouseover="showTip(event, '47', 47)">
+            options allowedMethods
+          </code>
+          <div class="tip" id="47">
+            <strong>Signature:</strong>allowedMethods:seq&lt;HttpMethod&gt; -&gt; HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '48', 48)" onmouseover="showTip(event, '48', 48)">
+            Pragma x response
           </code>
           <div class="tip" id="48">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
@@ -375,25 +544,26 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '49', 49)" onmouseover="showTip(event, '49', 49)">
-            Date x response
+            resourceHandlerOrDefault (...)
           </code>
           <div class="tip" id="49">
-            <strong>Signature:</strong>x:DateTimeOffset -&gt; response:HttpResponseMessage -&gt; unit<br />
+            <strong>Signature:</strong>methods:seq&lt;HttpMethod&gt; -&gt; handler:(HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt; option) -&gt; request:HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
-        
+        <p>Adds a default response of "405 Method Not Allowed" to a handler supporting the specified methods.</p>
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '50', 50)" onmouseover="showTip(event, '50', 50)">
-            emptyContent 
+            respond (...)
           </code>
           <div class="tip" id="50">
-            <strong>Signature:</strong>HttpContent<br />
-                      </div>
+            <strong>Signature:</strong>statusCode:HttpStatusCode -&gt; headers:(HttpResponseMessage -&gt; unit) -&gt; content:&#39;?4870 option -&gt; request:HttpRequestMessage -&gt; HttpResponseMessage<br />
+                          <strong>Type parameters:</strong> '?4870          </div>
         </td>
         <td class="xmldoc">
         
@@ -403,11 +573,11 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '51', 51)" onmouseover="showTip(event, '51', 51)">
-            ETag tag isWeak response
+            runConneg formatters f
           </code>
           <div class="tip" id="51">
-            <strong>Signature:</strong>tag:string -&gt; isWeak:bool -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
+            <strong>Signature:</strong>formatters:IEnumerable&lt;MediaTypeFormatter&gt; -&gt; f:(HttpRequestMessage -&gt; Async&lt;&#39;?4922&gt;) -&gt; HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;<br />
+                          <strong>Type parameters:</strong> '?4922          </div>
         </td>
         <td class="xmldoc">
         
@@ -417,191 +587,9 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '52', 52)" onmouseover="showTip(event, '52', 52)">
-            Expires x response
-          </code>
-          <div class="tip" id="52">
-            <strong>Signature:</strong>x:DateTimeOffset -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '53', 53)" onmouseover="showTip(event, '53', 53)">
-            findFormatterFor mediaType
-          </code>
-          <div class="tip" id="53">
-            <strong>Signature:</strong>mediaType:string -&gt; seq&lt;MediaTypeFormatter&gt; -&gt; MediaTypeFormatter<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '54', 54)" onmouseover="showTip(event, '54', 54)">
-            Form pairs
-          </code>
-          <div class="tip" id="54">
-            <strong>Signature:</strong>pairs:seq&lt;string * string&gt; -&gt; HttpContent<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '55', 55)" onmouseover="showTip(event, '55', 55)">
-            Formatted (s, encoding, mediaType)
-          </code>
-          <div class="tip" id="55">
-            <strong>Signature:</strong>(s:string * encoding:Encoding * mediaType:string) -&gt; HttpContent<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '56', 56)" onmouseover="showTip(event, '56', 56)">
-            formatWith mediaType formatter body
-          </code>
-          <div class="tip" id="56">
-            <strong>Signature:</strong>mediaType:string -&gt; formatter:MediaTypeFormatter -&gt; body:&#39;?4938 -&gt; HttpContent<br />
-                          <strong>Type parameters:</strong> '?4938          </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '57', 57)" onmouseover="showTip(event, '57', 57)">
-            IO stream
-          </code>
-          <div class="tip" id="57">
-            <strong>Signature:</strong>stream:Stream -&gt; HttpContent<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '58', 58)" onmouseover="showTip(event, '58', 58)">
-            Location x response
-          </code>
-          <div class="tip" id="58">
-            <strong>Signature:</strong>x:Uri -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '59', 59)" onmouseover="showTip(event, '59', 59)">
-            negotiateMediaType formatters request
-          </code>
-          <div class="tip" id="59">
-            <strong>Signature:</strong>formatters:IEnumerable&lt;MediaTypeFormatter&gt; -&gt; request:HttpRequestMessage -&gt; string option<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '60', 60)" onmouseover="showTip(event, '60', 60)">
-            OK headers content
-          </code>
-          <div class="tip" id="60">
-            <strong>Signature:</strong>headers:(HttpResponseMessage -&gt; unit) -&gt; content:&#39;?4930 option -&gt; HttpRequestMessage -&gt; HttpResponseMessage<br />
-                          <strong>Type parameters:</strong> '?4930          </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '61', 61)" onmouseover="showTip(event, '61', 61)">
-            options allowedMethods
-          </code>
-          <div class="tip" id="61">
-            <strong>Signature:</strong>allowedMethods:seq&lt;HttpMethod&gt; -&gt; HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '62', 62)" onmouseover="showTip(event, '62', 62)">
-            Pragma x response
-          </code>
-          <div class="tip" id="62">
-            <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '63', 63)" onmouseover="showTip(event, '63', 63)">
-            respond (...)
-          </code>
-          <div class="tip" id="63">
-            <strong>Signature:</strong>statusCode:HttpStatusCode -&gt; headers:(HttpResponseMessage -&gt; unit) -&gt; content:&#39;?4898 option -&gt; request:HttpRequestMessage -&gt; HttpResponseMessage<br />
-                          <strong>Type parameters:</strong> '?4898          </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '64', 64)" onmouseover="showTip(event, '64', 64)">
-            runConneg formatters f
-          </code>
-          <div class="tip" id="64">
-            <strong>Signature:</strong>formatters:IEnumerable&lt;MediaTypeFormatter&gt; -&gt; f:(HttpRequestMessage -&gt; Async&lt;&#39;?4950&gt;) -&gt; HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;<br />
-                          <strong>Type parameters:</strong> '?4950          </div>
-        </td>
-        <td class="xmldoc">
-        
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '65', 65)" onmouseover="showTip(event, '65', 65)">
             Segment segment
           </code>
-          <div class="tip" id="65">
+          <div class="tip" id="52">
             <strong>Signature:</strong>segment:ArraySegment&lt;byte&gt; -&gt; HttpContent<br />
                       </div>
         </td>
@@ -612,10 +600,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '66', 66)" onmouseover="showTip(event, '66', 66)">
+          <code onmouseout="hideTip(event, '53', 53)" onmouseover="showTip(event, '53', 53)">
             Server x response
           </code>
-          <div class="tip" id="66">
+          <div class="tip" id="53">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
                       </div>
         </td>
@@ -626,10 +614,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '67', 67)" onmouseover="showTip(event, '67', 67)">
+          <code onmouseout="hideTip(event, '54', 54)" onmouseover="showTip(event, '54', 54)">
             Str s
           </code>
-          <div class="tip" id="67">
+          <div class="tip" id="54">
             <strong>Signature:</strong>s:string -&gt; HttpContent<br />
                       </div>
         </td>
@@ -640,10 +628,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '68', 68)" onmouseover="showTip(event, '68', 68)">
+          <code onmouseout="hideTip(event, '55', 55)" onmouseover="showTip(event, '55', 55)">
             Trailer x response
           </code>
-          <div class="tip" id="68">
+          <div class="tip" id="55">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
                       </div>
         </td>
@@ -654,10 +642,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '69', 69)" onmouseover="showTip(event, '69', 69)">
+          <code onmouseout="hideTip(event, '56', 56)" onmouseover="showTip(event, '56', 56)">
             Upgrade x response
           </code>
-          <div class="tip" id="69">
+          <div class="tip" id="56">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
                       </div>
         </td>
@@ -668,10 +656,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '70', 70)" onmouseover="showTip(event, '70', 70)">
+          <code onmouseout="hideTip(event, '57', 57)" onmouseover="showTip(event, '57', 57)">
             Vary x response
           </code>
-          <div class="tip" id="70">
+          <div class="tip" id="57">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
                       </div>
         </td>
@@ -682,10 +670,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '71', 71)" onmouseover="showTip(event, '71', 71)">
+          <code onmouseout="hideTip(event, '58', 58)" onmouseover="showTip(event, '58', 58)">
             Via x response
           </code>
-          <div class="tip" id="71">
+          <div class="tip" id="58">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
                       </div>
         </td>
@@ -696,15 +684,38 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '72', 72)" onmouseover="showTip(event, '72', 72)">
+          <code onmouseout="hideTip(event, '59', 59)" onmouseover="showTip(event, '59', 59)">
             Warning x response
           </code>
-          <div class="tip" id="72">
+          <div class="tip" id="59">
             <strong>Signature:</strong>x:string -&gt; response:HttpResponseMessage -&gt; unit<br />
                       </div>
         </td>
         <td class="xmldoc">
         
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Type extensions</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Type extension</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '60', 60)" onmouseover="showTip(event, '60', 60)">
+            Empty
+          </code>
+          <div class="tip" id="60">
+            <strong>Signature:</strong>HttpContent<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+        <p>Returns an <see cref="EmptyContent" />.</p>
+
         </td>
       </tr>
     </tbody>
