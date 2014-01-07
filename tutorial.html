@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Introducing your project
+    <title>Frank
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A functional web application DSL for ASP.NET Web API">
@@ -33,9 +33,17 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1>Introducing your project</h1>
+<h1>Frank</h1>
 
-<p>Say more</p>
+<p>Frank is resource-oriented wrapper library for working with the <a href="http://asp.net/web-api/">Web API</a> and is developed in <a href="http://fsharp.net/">F#</a>.</p>
+
+<h2>Goals</h2>
+
+<ol>
+<li>Provide a simple, to-the-metal framework for quickly building HTTP applications and services without a lot of hassle. In this case, "to-the-metal" means utilizing the new <a href="http://msdn.microsoft.com/en-us/library/hh193585.aspx">HTTP stack coming in .NET 4.5</a> and available now in the <a href="http://nuget.org/List/Packages/HttpClient"><code>HttpClient</code></a> library available with <a href="http://nuget.org/List/Packages/AspNetWebApi.Core">Web API</a>.</li>
+<li>Focus on composition over everything else. Based in F#, composition comes fairly naturally.</li>
+<li>Run on a number of server platforms. Frank currently uses the <a href="http://asp.net/web-api/">Web API</a> platform to allow it to run either atop <a href="http://asp.net/">ASP.NET</a> or self-hosted using the <code>HttpSelfHostServer</code>. Other hosting options will be made available soon.</li>
+</ol>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l">1: </span>
@@ -59,7 +67,37 @@
 </tr>
 </table>
 
-<p>Some more info</p>
+<h2>Usage</h2>
+
+<h3>Define an Application</h3>
+
+<p>One may define a web application interface using a large variety of signatures.
+Indeed, if you search the web, you're likely to find a large number of approaches.
+When starting with Frank, I wanted to try to find a way to define an HTTP application
+using pure functions and function composition. The closest I found was the following:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">HttpApplication</span> <span class="o">=</span> <span class="i">HttpRequestMessage</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">Async</span><span class="o">&lt;</span><span class="i">HttpResponseMessage</span><span class="o">&gt;</span>
+    
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">orElse</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">left</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="i">right</span> <span class="o">=</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="i">request</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="i">Option</span><span class="o">.</span><span class="i">orElse</span> (<span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="i">left</span> <span onmouseout="hideTip(event, 'fs6', 9)" onmouseover="showTip(event, 'fs6', 9)" class="i">request</span>) (<span onmouseout="hideTip(event, 'fs5', 10)" onmouseover="showTip(event, 'fs5', 10)" class="i">right</span> <span onmouseout="hideTip(event, 'fs6', 11)" onmouseover="showTip(event, 'fs6', 11)" class="i">request</span>)
+<span class="k">let</span> <span class="k">inline</span> (<span class="o">&lt;|&gt;</span>) <span onmouseout="hideTip(event, 'fs4', 12)" onmouseover="showTip(event, 'fs4', 12)" class="i">left</span> <span onmouseout="hideTip(event, 'fs5', 13)" onmouseover="showTip(event, 'fs5', 13)" class="i">right</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 14)" onmouseover="showTip(event, 'fs3', 14)" class="i">orElse</span> <span onmouseout="hideTip(event, 'fs4', 15)" onmouseover="showTip(event, 'fs4', 15)" class="i">left</span> <span onmouseout="hideTip(event, 'fs5', 16)" onmouseover="showTip(event, 'fs5', 16)" class="i">right</span></pre>
+</td>
+</tr>
+</table>
+
+<p>The last of these was a means for merging multiple applications together into a single
+application. This allowed for a nice symmetry and elegance in that everything you composed
+would always have the same signature. Additional functions would allow you to map
+applications to specific methods or uri patterns.</p>
+
+<p>A "Hello, world!" application using these signatures would look like the following:</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l"> 1: </span>
@@ -83,101 +121,238 @@
 <span class="l">19: </span>
 <span class="l">20: </span>
 <span class="l">21: </span>
-<span class="l">22: </span>
-<span class="l">23: </span>
-<span class="l">24: </span>
-<span class="l">25: </span>
-<span class="l">26: </span>
-<span class="l">27: </span>
-<span class="l">28: </span>
-<span class="l">29: </span>
-<span class="l">30: </span>
-<span class="l">31: </span>
-<span class="l">32: </span>
-<span class="l">33: </span>
-<span class="l">34: </span>
-<span class="l">35: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">System</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 3)" onmouseover="showTip(event, 'fs2', 3)" class="i">Net</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="i">Net</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="i">Http</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 7)" onmouseover="showTip(event, 'fs1', 7)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="i">Web</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="i">Http</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 10)" onmouseover="showTip(event, 'fs1', 10)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 11)" onmouseover="showTip(event, 'fs4', 11)" class="i">Web</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 12)" onmouseover="showTip(event, 'fs5', 12)" class="i">Http</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs6', 13)" onmouseover="showTip(event, 'fs6', 13)" class="i">HttpResource</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 14)" onmouseover="showTip(event, 'fs1', 14)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 15)" onmouseover="showTip(event, 'fs4', 15)" class="i">Web</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 16)" onmouseover="showTip(event, 'fs7', 16)" class="i">Routing</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs8', 17)" onmouseover="showTip(event, 'fs8', 17)" class="i">Frank</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 17)" onmouseover="showTip(event, 'fs8', 17)" class="i">helloWorld</span> <span onmouseout="hideTip(event, 'fs9', 18)" onmouseover="showTip(event, 'fs9', 18)" class="i">request</span> <span class="o">=</span>
+    <span class="i">OK</span> <span onmouseout="hideTip(event, 'fs10', 19)" onmouseover="showTip(event, 'fs10', 19)" class="i">ignore</span> <span class="o">&lt;|</span> <span class="i">Str</span> <span class="s">&quot;</span><span class="s">Hello</span><span class="s">,</span><span class="s"> </span><span class="s">world</span><span class="s">!</span><span class="s">&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 20)" onmouseover="showTip(event, 'fs11', 20)" class="i">async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 21)" onmouseover="showTip(event, 'fs12', 21)" class="i">Return</span>
 
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs9', 18)" onmouseover="showTip(event, 'fs9', 18)" class="i">WebApiApplication</span>() <span class="o">=</span>
-    <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs1', 19)" onmouseover="showTip(event, 'fs1', 19)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 20)" onmouseover="showTip(event, 'fs4', 20)" class="i">Web</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs10', 21)" onmouseover="showTip(event, 'fs10', 21)" class="i">HttpApplication</span>()
+<span class="c">// A simple echo handler that returns the same input as it received might look like the following:</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 22)" onmouseover="showTip(event, 'fs11', 22)" class="i">formatters</span> <span class="o">=</span> [| <span class="k">new</span> <span onmouseout="hideTip(event, 'fs12', 23)" onmouseover="showTip(event, 'fs12', 23)" class="i">Formatting</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs13', 24)" onmouseover="showTip(event, 'fs13', 24)" class="i">JsonMediaTypeFormatter</span>() <span class="o">:&gt;</span> <span onmouseout="hideTip(event, 'fs12', 25)" onmouseover="showTip(event, 'fs12', 25)" class="i">Formatting</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs14', 26)" onmouseover="showTip(event, 'fs14', 26)" class="i">MediaTypeFormatter</span>
-                        <span class="k">new</span> <span onmouseout="hideTip(event, 'fs12', 27)" onmouseover="showTip(event, 'fs12', 27)" class="i">Formatting</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs15', 28)" onmouseover="showTip(event, 'fs15', 28)" class="i">XmlMediaTypeFormatter</span>() <span class="o">:&gt;</span> <span onmouseout="hideTip(event, 'fs12', 29)" onmouseover="showTip(event, 'fs12', 29)" class="i">Formatting</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs14', 30)" onmouseover="showTip(event, 'fs14', 30)" class="i">MediaTypeFormatter</span> |]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="i">echo</span> (<span onmouseout="hideTip(event, 'fs9', 23)" onmouseover="showTip(event, 'fs9', 23)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 24)" onmouseover="showTip(event, 'fs11', 24)" class="i">async</span> {
+    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs14', 25)" onmouseover="showTip(event, 'fs14', 25)" class="i">content</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 26)" onmouseover="showTip(event, 'fs9', 26)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()
+    <span class="k">return</span> <span class="i">respond</span> <span class="i">HttpStatusCode</span><span class="o">.</span><span class="i">OK</span>
+           <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span>
+           <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">StringContent</span>(<span onmouseout="hideTip(event, 'fs14', 27)" onmouseover="showTip(event, 'fs14', 27)" class="i">content</span>)
+}
 
-    <span class="c">// Respond with a web page containing &quot;Hello, world!&quot; and a form submission to use the POST method of the resource.</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 31)" onmouseover="showTip(event, 'fs16', 31)" class="i">helloWorld</span> <span onmouseout="hideTip(event, 'fs17', 32)" onmouseover="showTip(event, 'fs17', 32)" class="i">request</span> <span class="o">=</span> 
-      <span onmouseout="hideTip(event, 'fs18', 33)" onmouseover="showTip(event, 'fs18', 33)" class="i">respond</span> <span onmouseout="hideTip(event, 'fs19', 34)" onmouseover="showTip(event, 'fs19', 34)" class="i">HttpStatusCode</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 35)" onmouseover="showTip(event, 'fs20', 35)" class="i">OK</span>
-      <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs21', 36)" onmouseover="showTip(event, 'fs21', 36)" class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">html</span><span class="s">&quot;</span>
-      <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs22', 37)" onmouseover="showTip(event, 'fs22', 37)" class="i">Some</span>(<span onmouseout="hideTip(event, 'fs23', 38)" onmouseover="showTip(event, 'fs23', 38)" class="i">Formatted</span> (<span class="s">@&quot;</span><span class="s">&lt;</span><span class="s">!</span><span class="s">doctype</span><span class="s"> </span><span class="s">html</span><span class="s">&gt;</span>
-<span class="s">&lt;</span><span class="s">meta</span><span class="s"> </span><span class="s">charset</span><span class="s">=</span><span class="s">utf</span><span class="s">-</span><span class="s">8</span><span class="s">&gt;</span>
-<span class="s">&lt;</span><span class="s">title</span><span class="s">&gt;</span><span class="s">Hello</span><span class="s">&lt;</span><span class="s">/</span><span class="s">title</span><span class="s">&gt;</span>
-<span class="s">&lt;</span><span class="s">p</span><span class="s">&gt;</span><span class="s">Hello</span><span class="s">,</span><span class="s"> </span><span class="s">world</span><span class="s">!</span>
-<span class="s">&lt;</span><span class="s">form</span><span class="s"> </span><span class="s">action</span><span class="s">=</span><span class="s">&quot;&quot;</span><span class="s">/</span><span class="s">&quot;&quot;</span><span class="s"> </span><span class="s">method</span><span class="s">=</span><span class="s">&quot;&quot;</span><span class="s">post</span><span class="s">&quot;&quot;</span><span class="s">&gt;</span>
-<span class="s">&lt;</span><span class="s">input</span><span class="s"> </span><span class="s">type</span><span class="s">=</span><span class="s">&quot;&quot;</span><span class="s">hidden</span><span class="s">&quot;&quot;</span><span class="s"> </span><span class="s">name</span><span class="s">=</span><span class="s">&quot;&quot;</span><span class="s">text</span><span class="s">&quot;&quot;</span><span class="s"> </span><span class="s">value</span><span class="s">=</span><span class="s">&quot;&quot;</span><span class="s">testing</span><span class="s">&quot;&quot;</span><span class="s">&gt;</span>
-<span class="s">&lt;</span><span class="s">input</span><span class="s"> </span><span class="s">type</span><span class="s">=</span><span class="s">&quot;&quot;</span><span class="s">submit</span><span class="s">&quot;&quot;</span><span class="s">&gt;</span><span class="s">&quot;</span>, <span onmouseout="hideTip(event, 'fs1', 39)" onmouseover="showTip(event, 'fs1', 39)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs24', 40)" onmouseover="showTip(event, 'fs24', 40)" class="i">Text</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs25', 41)" onmouseover="showTip(event, 'fs25', 41)" class="i">Encoding</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs26', 42)" onmouseover="showTip(event, 'fs26', 42)" class="i">UTF8</span>, <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">html</span><span class="s">&quot;</span>))
-      <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs17', 43)" onmouseover="showTip(event, 'fs17', 43)" class="i">request</span>
-      <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs27', 44)" onmouseover="showTip(event, 'fs27', 44)" class="i">async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs28', 45)" onmouseover="showTip(event, 'fs28', 45)" class="i">Return</span>
+<span class="c">// or just:</span>
 
-    <span class="c">// Respond with the request content, if any.</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 46)" onmouseover="showTip(event, 'fs29', 46)" class="i">echo</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs30', 47)" onmouseover="showTip(event, 'fs30', 47)" class="i">runConneg</span> <span onmouseout="hideTip(event, 'fs11', 48)" onmouseover="showTip(event, 'fs11', 48)" class="i">formatters</span> <span class="o">&lt;|</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs17', 49)" onmouseover="showTip(event, 'fs17', 49)" class="i">request</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs17', 50)" onmouseover="showTip(event, 'fs17', 50)" class="i">request</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs31', 51)" onmouseover="showTip(event, 'fs31', 51)" class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()
-    
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 52)" onmouseover="showTip(event, 'fs32', 52)" class="i">resource</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 53)" onmouseover="showTip(event, 'fs33', 53)" class="i">route</span> <span class="s">&quot;</span><span class="s">/</span><span class="s">&quot;</span> (<span onmouseout="hideTip(event, 'fs34', 54)" onmouseover="showTip(event, 'fs34', 54)" class="i">get</span> <span onmouseout="hideTip(event, 'fs16', 55)" onmouseover="showTip(event, 'fs16', 55)" class="i">helloWorld</span> <span class="o">&lt;|&gt;</span> <span onmouseout="hideTip(event, 'fs35', 56)" onmouseover="showTip(event, 'fs35', 56)" class="i">post</span> <span onmouseout="hideTip(event, 'fs29', 57)" onmouseover="showTip(event, 'fs29', 57)" class="i">echo</span>)
-    
-    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs36', 58)" onmouseover="showTip(event, 'fs36', 58)" class="i">x</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs37', 59)" onmouseover="showTip(event, 'fs37', 59)" class="i">Start</span>() <span class="o">=</span>
-        <span class="i">GlobalConfiguration</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs38', 60)" onmouseover="showTip(event, 'fs38', 60)" class="i">Configuration</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs39', 61)" onmouseover="showTip(event, 'fs39', 61)" class="i">register</span> [<span onmouseout="hideTip(event, 'fs32', 62)" onmouseover="showTip(event, 'fs32', 62)" class="i">resource</span>]</pre>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 28)" onmouseover="showTip(event, 'fs15', 28)" class="i">echo</span> (<span onmouseout="hideTip(event, 'fs9', 29)" onmouseover="showTip(event, 'fs9', 29)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span>
+    <span class="i">OK</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs9', 30)" onmouseover="showTip(event, 'fs9', 30)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()
+
+<span class="c">// If you want to provide content negotiation, use:</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 31)" onmouseover="showTip(event, 'fs16', 31)" class="i">echo</span> <span class="o">=</span> <span class="i">runConneg</span> <span class="i">formatters</span> <span class="o">&lt;|</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs17', 32)" onmouseover="showTip(event, 'fs17', 32)" class="i">request</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs17', 33)" onmouseover="showTip(event, 'fs17', 33)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()</pre>
 </td>
 </tr>
 </table>
 
-<div class="tip" id="fs1">namespace System</div>
-<div class="tip" id="fs2">namespace System.Net</div>
-<div class="tip" id="fs3">namespace System.Net.Http</div>
-<div class="tip" id="fs4">namespace System.Web</div>
-<div class="tip" id="fs5">namespace System.Web.Http</div>
-<div class="tip" id="fs6">Multiple items<br />module HttpResource<br /><br />from System.Web.Http<br /><br />--------------------<br />type HttpResource =<br />&#160;&#160;inherit HttpRoute<br />&#160;&#160;new : template:string * methods:seq&lt;HttpMethod&gt; * handler:(HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt; option) -&gt; HttpResource<br />&#160;&#160;member Name : string<br /><br />Full name: System.Web.Http.HttpResource<br /><br />--------------------<br />new : template:string * methods:seq&lt;HttpMethod&gt; * handler:(HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt; option) -&gt; HttpResource</div>
-<div class="tip" id="fs7">namespace System.Web.Routing</div>
-<div class="tip" id="fs8">namespace Frank</div>
-<div class="tip" id="fs9">Multiple items<br />type WebApiApplication =<br />&#160;&#160;inherit HttpApplication<br />&#160;&#160;new : unit -&gt; WebApiApplication<br />&#160;&#160;member Start : unit -&gt; unit<br /><br />Full name: Tutorial.WebApiApplication<br /><br />--------------------<br />new : unit -&gt; WebApiApplication</div>
-<div class="tip" id="fs10">Multiple items<br />type HttpApplication =<br />&#160;&#160;new : unit -&gt; HttpApplication<br />&#160;&#160;member AddOnAcquireRequestStateAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;member AddOnAuthenticateRequestAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;member AddOnAuthorizeRequestAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;member AddOnBeginRequestAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;member AddOnEndRequestAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;member AddOnLogRequestAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;member AddOnMapRequestHandlerAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;member AddOnPostAcquireRequestStateAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;member AddOnPostAuthenticateRequestAsync : bh:BeginEventHandler * eh:EndEventHandler -&gt; unit + 1 overload<br />&#160;&#160;...<br /><br />Full name: System.Web.HttpApplication<br /><br />--------------------<br />Web.HttpApplication() : unit</div>
-<div class="tip" id="fs11">val formatters : Formatting.MediaTypeFormatter []</div>
-<div class="tip" id="fs12">namespace System.Net.Http.Formatting</div>
-<div class="tip" id="fs13">Multiple items<br />type JsonMediaTypeFormatter =<br />&#160;&#160;inherit MediaTypeFormatter<br />&#160;&#160;new : unit -&gt; JsonMediaTypeFormatter<br />&#160;&#160;member CanReadType : type:Type -&gt; bool<br />&#160;&#160;member CanWriteType : type:Type -&gt; bool<br />&#160;&#160;member CreateDefaultSerializerSettings : unit -&gt; JsonSerializerSettings<br />&#160;&#160;member Indent : bool with get, set<br />&#160;&#160;member MaxDepth : int with get, set<br />&#160;&#160;member ReadFromStreamAsync : type:Type * readStream:Stream * content:HttpContent * formatterLogger:IFormatterLogger -&gt; Task&lt;obj&gt;<br />&#160;&#160;member SerializerSettings : JsonSerializerSettings with get, set<br />&#160;&#160;member UseDataContractJsonSerializer : bool with get, set<br />&#160;&#160;member WriteToStreamAsync : type:Type * value:obj * writeStream:Stream * content:HttpContent * transportContext:TransportContext -&gt; Task<br />&#160;&#160;...<br /><br />Full name: System.Net.Http.Formatting.JsonMediaTypeFormatter<br /><br />--------------------<br />Formatting.JsonMediaTypeFormatter() : unit</div>
-<div class="tip" id="fs14">type MediaTypeFormatter =<br />&#160;&#160;member CanReadType : type:Type -&gt; bool<br />&#160;&#160;member CanWriteType : type:Type -&gt; bool<br />&#160;&#160;member GetPerRequestFormatterInstance : type:Type * request:HttpRequestMessage * mediaType:MediaTypeHeaderValue -&gt; MediaTypeFormatter<br />&#160;&#160;member MediaTypeMappings : Collection&lt;MediaTypeMapping&gt; with get, set<br />&#160;&#160;member ReadFromStreamAsync : type:Type * readStream:Stream * content:HttpContent * formatterLogger:IFormatterLogger -&gt; Task&lt;obj&gt;<br />&#160;&#160;member RequiredMemberSelector : IRequiredMemberSelector with get, set<br />&#160;&#160;member SelectCharacterEncoding : contentHeaders:HttpContentHeaders -&gt; Encoding<br />&#160;&#160;member SetDefaultContentHeaders : type:Type * headers:HttpContentHeaders * mediaType:MediaTypeHeaderValue -&gt; unit<br />&#160;&#160;member SupportedEncodings : Collection&lt;Encoding&gt; with get, set<br />&#160;&#160;member SupportedMediaTypes : Collection&lt;MediaTypeHeaderValue&gt; with get, set<br />&#160;&#160;...<br /><br />Full name: System.Net.Http.Formatting.MediaTypeFormatter</div>
-<div class="tip" id="fs15">Multiple items<br />type XmlMediaTypeFormatter =<br />&#160;&#160;inherit MediaTypeFormatter<br />&#160;&#160;new : unit -&gt; XmlMediaTypeFormatter<br />&#160;&#160;member CanReadType : type:Type -&gt; bool<br />&#160;&#160;member CanWriteType : type:Type -&gt; bool<br />&#160;&#160;member Indent : bool with get, set<br />&#160;&#160;member MaxDepth : int with get, set<br />&#160;&#160;member ReadFromStreamAsync : type:Type * readStream:Stream * content:HttpContent * formatterLogger:IFormatterLogger -&gt; Task&lt;obj&gt;<br />&#160;&#160;member RemoveSerializer : type:Type -&gt; bool<br />&#160;&#160;member SetSerializer&lt;&#39;T&gt; : serializer:XmlObjectSerializer -&gt; unit + 3 overloads<br />&#160;&#160;member UseXmlSerializer : bool with get, set<br />&#160;&#160;member WriteToStreamAsync : type:Type * value:obj * writeStream:Stream * content:HttpContent * transportContext:TransportContext -&gt; Task<br />&#160;&#160;...<br /><br />Full name: System.Net.Http.Formatting.XmlMediaTypeFormatter<br /><br />--------------------<br />Formatting.XmlMediaTypeFormatter() : unit</div>
-<div class="tip" id="fs16">val helloWorld : (HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;)</div>
-<div class="tip" id="fs17">val request : HttpRequestMessage</div>
-<div class="tip" id="fs18">val respond : statusCode:HttpStatusCode -&gt; headers:(HttpResponseMessage -&gt; unit) -&gt; content:#HttpContent option -&gt; request:HttpRequestMessage -&gt; HttpResponseMessage<br /><br />Full name: Frank.Core.respond</div>
-<div class="tip" id="fs19">type HttpStatusCode =<br />&#160;&#160;| Continue = 100<br />&#160;&#160;| SwitchingProtocols = 101<br />&#160;&#160;| OK = 200<br />&#160;&#160;| Created = 201<br />&#160;&#160;| Accepted = 202<br />&#160;&#160;| NonAuthoritativeInformation = 203<br />&#160;&#160;| NoContent = 204<br />&#160;&#160;| ResetContent = 205<br />&#160;&#160;| PartialContent = 206<br />&#160;&#160;| MultipleChoices = 300<br />&#160;&#160;...<br /><br />Full name: System.Net.HttpStatusCode</div>
-<div class="tip" id="fs20">field HttpStatusCode.OK = 200</div>
-<div class="tip" id="fs21">val ( Content-Type ) : x:string -&gt; response:HttpResponseMessage -&gt; unit<br /><br />Full name: Frank.Core.( Content-Type )</div>
-<div class="tip" id="fs22">union case Option.Some: Value: &#39;T -&gt; Option&lt;&#39;T&gt;</div>
-<div class="tip" id="fs23">val Formatted : s:string * encoding:Text.Encoding * mediaType:string -&gt; HttpContent<br /><br />Full name: Frank.Core.Formatted</div>
-<div class="tip" id="fs24">namespace System.Text</div>
-<div class="tip" id="fs25">type Encoding =<br />&#160;&#160;member BodyName : string<br />&#160;&#160;member Clone : unit -&gt; obj<br />&#160;&#160;member CodePage : int<br />&#160;&#160;member DecoderFallback : DecoderFallback with get, set<br />&#160;&#160;member EncoderFallback : EncoderFallback with get, set<br />&#160;&#160;member EncodingName : string<br />&#160;&#160;member Equals : value:obj -&gt; bool<br />&#160;&#160;member GetByteCount : chars:char[] -&gt; int + 3 overloads<br />&#160;&#160;member GetBytes : chars:char[] -&gt; byte[] + 5 overloads<br />&#160;&#160;member GetCharCount : bytes:byte[] -&gt; int + 2 overloads<br />&#160;&#160;...<br /><br />Full name: System.Text.Encoding</div>
-<div class="tip" id="fs26">property Text.Encoding.UTF8: Text.Encoding</div>
-<div class="tip" id="fs27">val async : AsyncBuilder<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.async</div>
-<div class="tip" id="fs28">member AsyncBuilder.Return : value:&#39;T -&gt; Async&lt;&#39;T&gt;</div>
-<div class="tip" id="fs29">val echo : (HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;)</div>
-<div class="tip" id="fs30">val runConneg : formatters:Collections.Generic.IEnumerable&lt;Formatting.MediaTypeFormatter&gt; -&gt; f:(HttpRequestMessage -&gt; Async&lt;&#39;a&gt;) -&gt; (HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt;)<br /><br />Full name: Frank.Core.runConneg</div>
-<div class="tip" id="fs31">property HttpRequestMessage.Content: HttpContent</div>
-<div class="tip" id="fs32">val resource : HttpResource</div>
-<div class="tip" id="fs33">val route : uri:string -&gt; seq&lt;HttpMethod&gt; * (HttpRequestMessage -&gt; Async&lt;HttpResponseMessage&gt; option) -&gt; HttpResource<br /><br />Full name: System.Web.Http.HttpResource.route</div>
-<div class="tip" id="fs34">val get : handler:(HttpRequestMessage -&gt; &#39;a) -&gt; HttpMethod list * (#HttpRequestMessage -&gt; &#39;a option)<br /><br />Full name: System.Web.Http.HttpResource.get</div>
-<div class="tip" id="fs35">val post : handler:(HttpRequestMessage -&gt; &#39;a) -&gt; HttpMethod list * (#HttpRequestMessage -&gt; &#39;a option)<br /><br />Full name: System.Web.Http.HttpResource.post</div>
-<div class="tip" id="fs36">val x : WebApiApplication</div>
-<div class="tip" id="fs37">member WebApiApplication.Start : unit -&gt; unit<br /><br />Full name: Tutorial.WebApiApplication.Start</div>
-<div class="tip" id="fs38">Multiple items<br />namespace System.Net.Configuration<br /><br />--------------------<br />namespace System.Configuration</div>
-<div class="tip" id="fs39">val register : resources:seq&lt;HttpResource&gt; -&gt; config:HttpConfiguration -&gt; unit<br /><br />Full name: System.Web.Http.HttpResource.register</div>
+<h3>Define an HTTP Resource</h3>
+
+<p>Alas, this approach works only so well. HTTP is a rich communication specification.
+The simplicity and elegance of a purely functional approach quickly loses the ability
+to communicate back options to the client. For instance, given the above, how do you
+return a meaningful <code>405 Method Not Allowed</code> response? The HTTP specification requires
+that you list the allowed methods, but if you merge all the logic for selecting an
+application into the functions, there is no easy way to recall all the allowed methods,
+short of trying them all. You could require that the developer add the list of used
+methods, but that, too, misses the point that the application should be collecting this
+and helping the developer by taking care of all of the nuts and bolts items.</p>
+
+<p>The next approach I tried involved using a tuple of a list of allowed HTTP methods and
+the application handler, which used the merged function approach described above for
+actually executing the application. However, once again, there are limitations. This
+structure accurately represents a resource, but it does not allow for multiple resources
+to coexist side-by-side. Another tuple of uri pattern matching expressions could wrap
+a list of these method * handler tuples, but at this point I realized I would be better
+served by using real types and added an <code>HttpResource</code> type to ease the type burden.</p>
+
+<p>HTTP resources expose an resource handler function at a given uri.
+In the common MVC-style frameworks, this would roughly correspond
+to a <code>Controller</code>. Resources should represent a single entity type,
+and it is important to note that a <code>Foo</code> is not the same entity
+type as a <code>Foo list</code>, which is where the typical MVC approach goes wrong.</p>
+
+<p>The <code>405 Method Not Allowed</code> function allows a resource to correctly respond to messages.
+Therefore, we extend the <code>HttpResource</code> with an <code>Invoke</code> method.
+Also note that the methods will always be looked up using the latest set. This could
+probably be memoized so as to save a bit of time, but it allows us to ensure that all
+available methods are reported.</p>
+
+<h3>Compose Applications and Resources into Applications</h3>
+
+<p>A compositional approach to type mapping and handler design.
+Here, the actual function shows clearly that we are really using
+the <code>id</code> function to return the very same result.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 34)" onmouseover="showTip(event, 'fs18', 34)" class="i">echo2Transform</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 35)" onmouseover="showTip(event, 'fs19', 35)" class="i">id</span></pre>
+</td>
+</tr>
+</table>
+
+<p>The <code>echo2ReadRequest</code> maps the incoming request to a value that can be used
+within the actual computation, or <code>echo2Transform</code> in this example.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 36)" onmouseover="showTip(event, 'fs20', 36)" class="i">echo2ReadRequest</span> (<span onmouseout="hideTip(event, 'fs9', 37)" onmouseover="showTip(event, 'fs9', 37)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs9', 38)" onmouseover="showTip(event, 'fs9', 38)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()
+
+<span class="c">// The `echo2Respond` maps the outgoing message body to an HTTP response.</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 39)" onmouseover="showTip(event, 'fs21', 39)" class="i">echo2Respond</span> <span onmouseout="hideTip(event, 'fs22', 40)" onmouseover="showTip(event, 'fs22', 40)" class="i">body</span> <span class="o">=</span>
+    <span class="i">respond</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs22', 41)" onmouseover="showTip(event, 'fs22', 41)" class="i">body</span></pre>
+</td>
+</tr>
+</table>
+
+<p>This <code>echo2</code> is the same in principle as <code>echo</code> above, except that the
+logic for the message transform deals only with the concrete types
+about which it cares and isn't bothered by the transformations.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 42)" onmouseover="showTip(event, 'fs23', 42)" class="i">echo2</span> <span onmouseout="hideTip(event, 'fs9', 43)" onmouseover="showTip(event, 'fs9', 43)" class="i">request</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 44)" onmouseover="showTip(event, 'fs11', 44)" class="i">async</span> {
+    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs14', 45)" onmouseover="showTip(event, 'fs14', 45)" class="i">content</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 46)" onmouseover="showTip(event, 'fs20', 46)" class="i">echo2ReadRequest</span> <span onmouseout="hideTip(event, 'fs9', 47)" onmouseover="showTip(event, 'fs9', 47)" class="i">request</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 48)" onmouseover="showTip(event, 'fs24', 48)" class="i">body</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 49)" onmouseover="showTip(event, 'fs18', 49)" class="i">echo2Transform</span> <span onmouseout="hideTip(event, 'fs14', 50)" onmouseover="showTip(event, 'fs14', 50)" class="i">content</span>
+    <span class="k">return</span> <span onmouseout="hideTip(event, 'fs21', 51)" onmouseover="showTip(event, 'fs21', 51)" class="i">echo2Respond</span> <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">StringContent</span>(<span onmouseout="hideTip(event, 'fs24', 52)" onmouseover="showTip(event, 'fs24', 52)" class="i">body</span>)
+}
+
+<span class="c">// Create a `HttpResource` instance at the root of the site that responds to `POST`.</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 53)" onmouseover="showTip(event, 'fs25', 53)" class="i">resource</span> <span class="o">=</span> <span class="i">route</span> <span class="s">&quot;</span><span class="s">/</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span class="i">post</span> <span onmouseout="hideTip(event, 'fs23', 54)" onmouseover="showTip(event, 'fs23', 54)" class="i">echo2</span></pre>
+</td>
+</tr>
+</table>
+
+<p>Other combinators are available to handle other scenarios, such as:</p>
+
+<ol>
+<li>Content Negotiation</li>
+<li>Building Responses</li>
+<li>Combining applications into resources</li>
+<li>Combining resources into applications</li>
+</ol>
+
+<p>Check the samples for more examples of these combinators.</p>
+
+<h3>Define a Middleware</h3>
+
+<p>Middlewares follow a Russian-doll model for wrapping resource handlers with additional functionality. Frank middlewares take an <code>HttpApplication</code> and return an <code>HttpApplication</code>.
+The <code>Frank.Middleware</code> module defines several, simple middlewares, such as the <code>log</code> middleware that intercepts logs incoming requests and the time taken to respond:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 55)" onmouseover="showTip(event, 'fs26', 55)" class="i">log</span> <span onmouseout="hideTip(event, 'fs27', 56)" onmouseover="showTip(event, 'fs27', 56)" class="i">app</span> <span class="o">=</span> <span class="k">fun</span> (<span onmouseout="hideTip(event, 'fs9', 57)" onmouseover="showTip(event, 'fs9', 57)" class="i">request</span> <span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs11', 58)" onmouseover="showTip(event, 'fs11', 58)" class="i">async</span> {
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 59)" onmouseover="showTip(event, 'fs28', 59)" class="i">sw</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 60)" onmouseover="showTip(event, 'fs29', 60)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs30', 61)" onmouseover="showTip(event, 'fs30', 61)" class="i">Diagnostics</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs31', 62)" onmouseover="showTip(event, 'fs31', 62)" class="i">Stopwatch</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs32', 63)" onmouseover="showTip(event, 'fs32', 63)" class="i">StartNew</span>()
+    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs33', 64)" onmouseover="showTip(event, 'fs33', 64)" class="i">response</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 65)" onmouseover="showTip(event, 'fs27', 65)" class="i">app</span> <span onmouseout="hideTip(event, 'fs9', 66)" onmouseover="showTip(event, 'fs9', 66)" class="i">request</span>
+    <span onmouseout="hideTip(event, 'fs34', 67)" onmouseover="showTip(event, 'fs34', 67)" class="i">printfn</span> <span class="s">&quot;</span><span class="s">Received</span><span class="s"> </span><span class="s">a</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s"> </span><span class="s">request</span><span class="s"> </span><span class="s">from</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s">.</span><span class="s"> </span><span class="s">Responded</span><span class="s"> </span><span class="s">in</span><span class="s"> </span><span class="s">%</span><span class="s">i</span><span class="s"> </span><span class="s">ms</span><span class="s">.</span><span class="s">&quot;</span>
+            <span onmouseout="hideTip(event, 'fs9', 68)" onmouseover="showTip(event, 'fs9', 68)" class="i">request</span><span class="o">.</span><span class="i">Method</span><span class="o">.</span><span class="i">Method</span>
+            <span onmouseout="hideTip(event, 'fs9', 69)" onmouseover="showTip(event, 'fs9', 69)" class="i">request</span><span class="o">.</span><span class="i">RequestUri</span><span class="o">.</span><span class="i">PathAndQuery</span>
+            <span onmouseout="hideTip(event, 'fs28', 70)" onmouseover="showTip(event, 'fs28', 70)" class="i">sw</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 71)" onmouseover="showTip(event, 'fs35', 71)" class="i">ElapsedMilliseconds</span>
+    <span onmouseout="hideTip(event, 'fs28', 72)" onmouseover="showTip(event, 'fs28', 72)" class="i">sw</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs36', 73)" onmouseover="showTip(event, 'fs36', 73)" class="i">Reset</span>()
+    <span class="k">return</span> <span onmouseout="hideTip(event, 'fs33', 74)" onmouseover="showTip(event, 'fs33', 74)" class="i">response</span>
+}</pre>
+</td>
+</tr>
+</table>
+
+<p>The most likely place to insert middlewares is the outer edge of your application. However, since middlewares are themselves just <code>HttpApplication</code>s, you can compose them into a Frank application at any level. Want to support logging only on one troublesome resource? No problem. Expose the resource as an application, wrap it in the log middleware, and insert it into the larger application as you did before.</p>
+
+<h2>Hosting</h2>
+
+<p>Frank will run on any hosting platform that supports the
+<a href="http://asp.net/web-api/">Web API</a> library. To hook up your Frank application,
+use the <code>register</code> function, passing in the resources and the instance of <code>HttpConfiguration</code>.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="i">register</span> [<span onmouseout="hideTip(event, 'fs25', 75)" onmouseover="showTip(event, 'fs25', 75)" class="i">resource</span>] <span class="i">config</span></pre>
+</td>
+</tr>
+</table>
+
+<p>This extension adds a default route to your <code>HttpConfiguration</code> instance and
+adds a <code>DelegatingHandler</code> instance to the route's <code>HttpConfiguration.MessageHandlers</code> collection.</p>
+
+<div class="tip" id="fs1">type HttpApplication = obj -&gt; obj<br /><br />Full name: Tutorial.HttpApplication</div>
+<div class="tip" id="fs2">Multiple items<br />type Async<br />static member AsBeginEnd : computation:(&#39;Arg -&gt; Async&lt;&#39;T&gt;) -&gt; (&#39;Arg * AsyncCallback * obj -&gt; IAsyncResult) * (IAsyncResult -&gt; &#39;T) * (IAsyncResult -&gt; unit)<br />static member AwaitEvent : event:IEvent&lt;&#39;Del,&#39;T&gt; * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt; (requires delegate and &#39;Del :&gt; Delegate)<br />static member AwaitIAsyncResult : iar:IAsyncResult * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />static member AwaitTask : task:Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt;<br />static member AwaitWaitHandle : waitHandle:WaitHandle * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />static member CancelDefaultToken : unit -&gt; unit<br />static member Catch : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;Choice&lt;&#39;T,exn&gt;&gt;<br />static member FromBeginEnd : beginAction:(AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg:&#39;Arg1 * beginAction:(&#39;Arg1 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg1:&#39;Arg1 * arg2:&#39;Arg2 * beginAction:(&#39;Arg1 * &#39;Arg2 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg1:&#39;Arg1 * arg2:&#39;Arg2 * arg3:&#39;Arg3 * beginAction:(&#39;Arg1 * &#39;Arg2 * &#39;Arg3 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromContinuations : callback:((&#39;T -&gt; unit) * (exn -&gt; unit) * (OperationCanceledException -&gt; unit) -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member Ignore : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;unit&gt;<br />static member OnCancel : interruption:(unit -&gt; unit) -&gt; Async&lt;IDisposable&gt;<br />static member Parallel : computations:seq&lt;Async&lt;&#39;T&gt;&gt; -&gt; Async&lt;&#39;T []&gt;<br />static member RunSynchronously : computation:Async&lt;&#39;T&gt; * ?timeout:int * ?cancellationToken:CancellationToken -&gt; &#39;T<br />static member Sleep : millisecondsDueTime:int -&gt; Async&lt;unit&gt;<br />static member Start : computation:Async&lt;unit&gt; * ?cancellationToken:CancellationToken -&gt; unit<br />static member StartAsTask : computation:Async&lt;&#39;T&gt; * ?taskCreationOptions:TaskCreationOptions * ?cancellationToken:CancellationToken -&gt; Task&lt;&#39;T&gt;<br />static member StartChild : computation:Async&lt;&#39;T&gt; * ?millisecondsTimeout:int -&gt; Async&lt;Async&lt;&#39;T&gt;&gt;<br />static member StartChildAsTask : computation:Async&lt;&#39;T&gt; * ?taskCreationOptions:TaskCreationOptions -&gt; Async&lt;Task&lt;&#39;T&gt;&gt;<br />static member StartImmediate : computation:Async&lt;unit&gt; * ?cancellationToken:CancellationToken -&gt; unit<br />static member StartWithContinuations : computation:Async&lt;&#39;T&gt; * continuation:(&#39;T -&gt; unit) * exceptionContinuation:(exn -&gt; unit) * cancellationContinuation:(OperationCanceledException -&gt; unit) * ?cancellationToken:CancellationToken -&gt; unit<br />static member SwitchToContext : syncContext:SynchronizationContext -&gt; Async&lt;unit&gt;<br />static member SwitchToNewThread : unit -&gt; Async&lt;unit&gt;<br />static member SwitchToThreadPool : unit -&gt; Async&lt;unit&gt;<br />static member TryCancelled : computation:Async&lt;&#39;T&gt; * compensation:(OperationCanceledException -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member CancellationToken : Async&lt;CancellationToken&gt;<br />static member DefaultCancellationToken : CancellationToken<br /><br />Full name: Microsoft.FSharp.Control.Async<br /><br />--------------------<br />type Async&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Control.Async&lt;_&gt;</div>
+<div class="tip" id="fs3">val orElse : left:&#39;a -&gt; right:&#39;b -&gt; request:&#39;c -&gt; &#39;d<br /><br />Full name: Tutorial.orElse</div>
+<div class="tip" id="fs4">val left : &#39;a</div>
+<div class="tip" id="fs5">val right : &#39;b</div>
+<div class="tip" id="fs6">val request : &#39;c</div>
+<div class="tip" id="fs7">module Option<br /><br />from Microsoft.FSharp.Core</div>
+<div class="tip" id="fs8">val helloWorld : request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.helloWorld</div>
+<div class="tip" id="fs9">val request : &#39;a</div>
+<div class="tip" id="fs10">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
+<div class="tip" id="fs11">val async : AsyncBuilder<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.async</div>
+<div class="tip" id="fs12">member AsyncBuilder.Return : value:&#39;T -&gt; Async&lt;&#39;T&gt;</div>
+<div class="tip" id="fs13">val echo : request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.echo</div>
+<div class="tip" id="fs14">val content : obj</div>
+<div class="tip" id="fs15">val echo : request:&#39;a -&gt; &#39;b<br /><br />Full name: Tutorial.echo</div>
+<div class="tip" id="fs16">val echo : obj<br /><br />Full name: Tutorial.echo</div>
+<div class="tip" id="fs17">val request : obj</div>
+<div class="tip" id="fs18">val echo2Transform : (&#39;a -&gt; &#39;a)<br /><br />Full name: Tutorial.echo2Transform</div>
+<div class="tip" id="fs19">val id : x:&#39;T -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.Operators.id</div>
+<div class="tip" id="fs20">val echo2ReadRequest : request:&#39;a -&gt; &#39;b<br /><br />Full name: Tutorial.echo2ReadRequest</div>
+<div class="tip" id="fs21">val echo2Respond : body:&#39;a -&gt; &#39;b<br /><br />Full name: Tutorial.echo2Respond</div>
+<div class="tip" id="fs22">val body : &#39;a</div>
+<div class="tip" id="fs23">val echo2 : request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.echo2</div>
+<div class="tip" id="fs24">val body : obj</div>
+<div class="tip" id="fs25">val resource : obj<br /><br />Full name: Tutorial.resource</div>
+<div class="tip" id="fs26">val log : app:(&#39;a -&gt; Async&lt;&#39;b&gt;) -&gt; request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.log</div>
+<div class="tip" id="fs27">val app : (&#39;a -&gt; Async&lt;&#39;b&gt;)</div>
+<div class="tip" id="fs28">val sw : System.Diagnostics.Stopwatch</div>
+<div class="tip" id="fs29">namespace System</div>
+<div class="tip" id="fs30">namespace System.Diagnostics</div>
+<div class="tip" id="fs31">Multiple items<br />type Stopwatch =<br />&#160;&#160;new : unit -&gt; Stopwatch<br />&#160;&#160;member Elapsed : TimeSpan<br />&#160;&#160;member ElapsedMilliseconds : int64<br />&#160;&#160;member ElapsedTicks : int64<br />&#160;&#160;member IsRunning : bool<br />&#160;&#160;member Reset : unit -&gt; unit<br />&#160;&#160;member Restart : unit -&gt; unit<br />&#160;&#160;member Start : unit -&gt; unit<br />&#160;&#160;member Stop : unit -&gt; unit<br />&#160;&#160;static val Frequency : int64<br />&#160;&#160;...<br /><br />Full name: System.Diagnostics.Stopwatch<br /><br />--------------------<br />System.Diagnostics.Stopwatch() : unit</div>
+<div class="tip" id="fs32">System.Diagnostics.Stopwatch.StartNew() : System.Diagnostics.Stopwatch</div>
+<div class="tip" id="fs33">val response : &#39;b</div>
+<div class="tip" id="fs34">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
+<div class="tip" id="fs35">property System.Diagnostics.Stopwatch.ElapsedMilliseconds: int64</div>
+<div class="tip" id="fs36">System.Diagnostics.Stopwatch.Reset() : unit</div>
 
         </div>
         <div class="span3">
