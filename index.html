@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>F# Project Scaffold
+    <title>Frank
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A functional web application DSL for ASP.NET Web API">
@@ -33,7 +33,7 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1>F# Project Scaffold</h1>
+<h1>Frank</h1>
 
 <p>Documentation</p>
 
@@ -41,8 +41,8 @@
   <div class="span1"></div>
   <div class="span6">
     <div class="well well-small" id="nuget">
-      The F# ProjectTemplate library can be <a href="https://nuget.org/packages/FSharp.ProjectTemplate">installed from NuGet</a>:
-      <pre>PM> Install-Package FSharp.ProjectTemplate</pre>
+      The Frank library can be <a href="https://nuget.org/packages/Frank">installed from NuGet</a>:
+      <pre>PM> Install-Package Frank</pre>
     </div>
   </div>
   <div class="span1"></div>
@@ -52,18 +52,30 @@
 
 <h2>Example</h2>
 
-<p>This example demonstrates using a function defined in this sample library.</p>
+<p>This example demonstrates using a function defined in this library.</p>
 
-<p>Some more info</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">helloWorld</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">request</span> <span class="o">=</span>
+    <span class="i">OK</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">ignore</span> <span class="o">&lt;|</span> <span class="i">Str</span> <span class="s">&quot;</span><span class="s">Hello</span><span class="s">,</span><span class="s"> </span><span class="s">world</span><span class="s">!</span><span class="s">&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="i">Return</span></pre>
+</td>
+</tr>
+</table>
 
 <h2>Samples &amp; documentation</h2>
 
 <p>The library comes with comprehensible documentation. 
-It can include a tutorials automatically generated from <code>*.fsx</code> files in <a href="https://github.com/pblasucci/FSharp.ProjectScaffold/tree/master/docs/content">the content folder</a>. 
+It can include a tutorials automatically generated from <code>*.fsx</code> files in <a href="https://github.com/frank-fs/frank/tree/master/docs/content">the content folder</a>. 
 The API reference is automatically generated from Markdown comments in the library implementation.</p>
 
 <ul>
-<li><p><a href="tutorial.html">Tutorial</a> contains a further explanation of this sample library.</p></li>
+<li><p><a href="tutorial.html">Getting Started</a> contains a further explanation of this library.</p></li>
 <li><p><a href="reference/index.html">API Reference</a> contains automatically generated documentation for all types, modules
 and functions in the library. This includes additional brief samples on using most of the
 functions.</p></li>
@@ -71,15 +83,20 @@ functions.</p></li>
 
 <h2>Contributing and copyright</h2>
 
-<p>The project is hosted on <a href="https://github.com/pblasucci/FSharp.ProjectScaffold">GitHub</a> where you can <a href="https://github.com/pblasucci/FSharp.ProjectScaffold/issues">report issues</a>, fork 
+<p>The project is hosted on <a href="https://github.com/frank-fs/frank">GitHub</a> where you can <a href="https://github.com/frank-fs/frank/issues">report issues</a>, fork 
 the project and submit pull requests. If you're adding new public API, please also 
-consider adding <a href="https://github.com/pblasucci/FSharp.ProjectScaffold/tree/master/docs/content">samples</a> that can be turned into a documentation. You might
-also want to read <a href="https://github.com/pblasucci/FSharp.ProjectScaffold/blob/master/README.md">library design notes</a> to understand how it works.</p>
+consider adding <a href="https://github.com/frank-fs/frank/tree/master/docs/content">samples</a> that can be turned into a documentation. You might
+also want to read <a href="https://github.com/frank-fs/frank/blob/master/README.md">library design notes</a> to understand how it works.</p>
 
 <p>The library is available under Public Domain license, which allows modification and 
 redistribution for both commercial and non-commercial purposes. For more information see the 
-<a href="https://github.com/pblasucci/FSharp.ProjectScaffold/blob/master/LICENSE.txt">License file</a> in the GitHub repository.</p>
+<a href="https://github.com/frank-fs/frank/blob/master/LICENSE.txt">License file</a> in the GitHub repository.</p>
 
+<div class="tip" id="fs1">val helloWorld : request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Index.helloWorld</div>
+<div class="tip" id="fs2">val request : &#39;a</div>
+<div class="tip" id="fs3">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
+<div class="tip" id="fs4">val async : AsyncBuilder<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.async</div>
+<div class="tip" id="fs5">member AsyncBuilder.Return : value:&#39;T -&gt; Async&lt;&#39;T&gt;</div>
 
         </div>
         <div class="span3">
