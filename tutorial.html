@@ -94,10 +94,10 @@ applications to specific methods or uri patterns.</p>
 </td>
 <td class="snippet"><pre class="fssnip">
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="i">echo</span> (<span onmouseout="hideTip(event, 'fs9', 23)" onmouseover="showTip(event, 'fs9', 23)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 24)" onmouseover="showTip(event, 'fs11', 24)" class="i">async</span> {
-    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs14', 25)" onmouseover="showTip(event, 'fs14', 25)" class="i">content</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 26)" onmouseover="showTip(event, 'fs9', 26)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()
+    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs14', 25)" onmouseover="showTip(event, 'fs14', 25)" class="i">content</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs2', 26)" onmouseover="showTip(event, 'fs2', 26)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs15', 27)" onmouseover="showTip(event, 'fs15', 27)" class="i">AwaitTask</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs9', 28)" onmouseover="showTip(event, 'fs9', 28)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">ReadAsStringAsync</span>()
     <span class="k">return</span> <span class="i">respond</span> <span class="i">HttpStatusCode</span><span class="o">.</span><span class="i">OK</span>
            <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span>
-           <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">StringContent</span>(<span onmouseout="hideTip(event, 'fs14', 27)" onmouseover="showTip(event, 'fs14', 27)" class="i">content</span>)
+           <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">StringContent</span>(<span onmouseout="hideTip(event, 'fs14', 29)" onmouseover="showTip(event, 'fs14', 29)" class="i">content</span>)
 }</pre>
 </td>
 </tr>
@@ -108,11 +108,13 @@ applications to specific methods or uri patterns.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l">1: </span>
 <span class="l">2: </span>
+<span class="l">3: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 28)" onmouseover="showTip(event, 'fs15', 28)" class="i">echo</span> (<span onmouseout="hideTip(event, 'fs9', 29)" onmouseover="showTip(event, 'fs9', 29)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span>
-    <span class="i">OK</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs9', 30)" onmouseover="showTip(event, 'fs9', 30)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()</pre>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 30)" onmouseover="showTip(event, 'fs16', 30)" class="i">echo</span> (<span onmouseout="hideTip(event, 'fs9', 31)" onmouseover="showTip(event, 'fs9', 31)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span>
+    <span class="i">OK</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span>
+       <span class="o">&lt;|</span> (<span onmouseout="hideTip(event, 'fs2', 32)" onmouseover="showTip(event, 'fs2', 32)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs15', 33)" onmouseover="showTip(event, 'fs15', 33)" class="i">AwaitTask</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs9', 34)" onmouseover="showTip(event, 'fs9', 34)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">ReadAsStringAsync</span>())</pre>
 </td>
 </tr>
 </table>
@@ -121,10 +123,12 @@ applications to specific methods or uri patterns.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l">1: </span>
+<span class="l">2: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 31)" onmouseover="showTip(event, 'fs16', 31)" class="i">echo</span> <span class="o">=</span> <span class="i">runConneg</span> <span class="i">formatters</span> <span class="o">&lt;|</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs17', 32)" onmouseover="showTip(event, 'fs17', 32)" class="i">request</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs17', 33)" onmouseover="showTip(event, 'fs17', 33)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()</pre>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 35)" onmouseover="showTip(event, 'fs17', 35)" class="i">echo</span> <span class="o">=</span> <span class="i">runConneg</span> <span class="i">formatters</span> <span class="o">&lt;|</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs18', 36)" onmouseover="showTip(event, 'fs18', 36)" class="i">request</span> <span class="k">-&gt;</span>
+    <span onmouseout="hideTip(event, 'fs2', 37)" onmouseover="showTip(event, 'fs2', 37)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs15', 38)" onmouseover="showTip(event, 'fs15', 38)" class="i">AwaitTask</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs18', 39)" onmouseover="showTip(event, 'fs18', 39)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">ReadAsStringAsync</span>()</pre>
 </td>
 </tr>
 </table>
@@ -172,7 +176,7 @@ the <code>id</code> function to return the very same result.</p>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 34)" onmouseover="showTip(event, 'fs18', 34)" class="i">echo2Transform</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 35)" onmouseover="showTip(event, 'fs19', 35)" class="i">id</span></pre>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 40)" onmouseover="showTip(event, 'fs19', 40)" class="i">echo2Transform</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 41)" onmouseover="showTip(event, 'fs20', 41)" class="i">id</span></pre>
 </td>
 </tr>
 </table>
@@ -186,8 +190,8 @@ within the actual computation, or <code>echo2Transform</code> in this example.</
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 36)" onmouseover="showTip(event, 'fs20', 36)" class="i">echo2ReadRequest</span> (<span onmouseout="hideTip(event, 'fs9', 37)" onmouseover="showTip(event, 'fs9', 37)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span>
-    <span onmouseout="hideTip(event, 'fs9', 38)" onmouseover="showTip(event, 'fs9', 38)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()</pre>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 42)" onmouseover="showTip(event, 'fs21', 42)" class="i">echo2ReadRequest</span> (<span onmouseout="hideTip(event, 'fs9', 43)" onmouseover="showTip(event, 'fs9', 43)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs2', 44)" onmouseover="showTip(event, 'fs2', 44)" class="i">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs15', 45)" onmouseover="showTip(event, 'fs15', 45)" class="i">AwaitTask</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs9', 46)" onmouseover="showTip(event, 'fs9', 46)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">ReadAsStringAsync</span>()</pre>
 </td>
 </tr>
 </table>
@@ -200,8 +204,8 @@ within the actual computation, or <code>echo2Transform</code> in this example.</
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 39)" onmouseover="showTip(event, 'fs21', 39)" class="i">echo2Respond</span> <span onmouseout="hideTip(event, 'fs22', 40)" onmouseover="showTip(event, 'fs22', 40)" class="i">body</span> <span class="o">=</span>
-    <span class="i">respond</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs22', 41)" onmouseover="showTip(event, 'fs22', 41)" class="i">body</span></pre>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 47)" onmouseover="showTip(event, 'fs22', 47)" class="i">echo2Respond</span> <span onmouseout="hideTip(event, 'fs23', 48)" onmouseover="showTip(event, 'fs23', 48)" class="i">body</span> <span class="o">=</span>
+    <span class="i">respond</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs23', 49)" onmouseover="showTip(event, 'fs23', 49)" class="i">body</span></pre>
 </td>
 </tr>
 </table>
@@ -219,10 +223,10 @@ about which it cares and isn't bothered by the transformations.</p>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 42)" onmouseover="showTip(event, 'fs23', 42)" class="i">echo2</span> <span onmouseout="hideTip(event, 'fs9', 43)" onmouseover="showTip(event, 'fs9', 43)" class="i">request</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 44)" onmouseover="showTip(event, 'fs11', 44)" class="i">async</span> {
-    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs14', 45)" onmouseover="showTip(event, 'fs14', 45)" class="i">content</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 46)" onmouseover="showTip(event, 'fs20', 46)" class="i">echo2ReadRequest</span> <span onmouseout="hideTip(event, 'fs9', 47)" onmouseover="showTip(event, 'fs9', 47)" class="i">request</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 48)" onmouseover="showTip(event, 'fs24', 48)" class="i">body</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 49)" onmouseover="showTip(event, 'fs18', 49)" class="i">echo2Transform</span> <span onmouseout="hideTip(event, 'fs14', 50)" onmouseover="showTip(event, 'fs14', 50)" class="i">content</span>
-    <span class="k">return</span> <span onmouseout="hideTip(event, 'fs21', 51)" onmouseover="showTip(event, 'fs21', 51)" class="i">echo2Respond</span> <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">StringContent</span>(<span onmouseout="hideTip(event, 'fs24', 52)" onmouseover="showTip(event, 'fs24', 52)" class="i">body</span>)
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 50)" onmouseover="showTip(event, 'fs24', 50)" class="i">echo2</span> <span onmouseout="hideTip(event, 'fs9', 51)" onmouseover="showTip(event, 'fs9', 51)" class="i">request</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 52)" onmouseover="showTip(event, 'fs11', 52)" class="i">async</span> {
+    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs14', 53)" onmouseover="showTip(event, 'fs14', 53)" class="i">content</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 54)" onmouseover="showTip(event, 'fs21', 54)" class="i">echo2ReadRequest</span> <span onmouseout="hideTip(event, 'fs9', 55)" onmouseover="showTip(event, 'fs9', 55)" class="i">request</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 56)" onmouseover="showTip(event, 'fs25', 56)" class="i">body</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 57)" onmouseover="showTip(event, 'fs19', 57)" class="i">echo2Transform</span> <span onmouseout="hideTip(event, 'fs14', 58)" onmouseover="showTip(event, 'fs14', 58)" class="i">content</span>
+    <span class="k">return</span> <span onmouseout="hideTip(event, 'fs22', 59)" onmouseover="showTip(event, 'fs22', 59)" class="i">echo2Respond</span> <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">StringContent</span>(<span onmouseout="hideTip(event, 'fs25', 60)" onmouseover="showTip(event, 'fs25', 60)" class="i">body</span>)
 }</pre>
 </td>
 </tr>
@@ -235,7 +239,7 @@ about which it cares and isn't bothered by the transformations.</p>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 53)" onmouseover="showTip(event, 'fs25', 53)" class="i">resource</span> <span class="o">=</span> <span class="i">route</span> <span class="s">&quot;</span><span class="s">/</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span class="i">post</span> <span onmouseout="hideTip(event, 'fs23', 54)" onmouseover="showTip(event, 'fs23', 54)" class="i">echo2</span></pre>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 61)" onmouseover="showTip(event, 'fs26', 61)" class="i">resource</span> <span class="o">=</span> <span class="i">route</span> <span class="s">&quot;</span><span class="s">/</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span class="i">post</span> <span onmouseout="hideTip(event, 'fs24', 62)" onmouseover="showTip(event, 'fs24', 62)" class="i">echo2</span></pre>
 </td>
 </tr>
 </table>
@@ -270,15 +274,15 @@ The <code>Frank.Middleware</code> module defines several, simple middlewares, su
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 55)" onmouseover="showTip(event, 'fs26', 55)" class="i">log</span> <span onmouseout="hideTip(event, 'fs27', 56)" onmouseover="showTip(event, 'fs27', 56)" class="i">app</span> <span class="o">=</span> <span class="k">fun</span> (<span onmouseout="hideTip(event, 'fs9', 57)" onmouseover="showTip(event, 'fs9', 57)" class="i">request</span> <span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs11', 58)" onmouseover="showTip(event, 'fs11', 58)" class="i">async</span> {
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 59)" onmouseover="showTip(event, 'fs28', 59)" class="i">sw</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 60)" onmouseover="showTip(event, 'fs29', 60)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs30', 61)" onmouseover="showTip(event, 'fs30', 61)" class="i">Diagnostics</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs31', 62)" onmouseover="showTip(event, 'fs31', 62)" class="i">Stopwatch</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs32', 63)" onmouseover="showTip(event, 'fs32', 63)" class="i">StartNew</span>()
-    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs33', 64)" onmouseover="showTip(event, 'fs33', 64)" class="i">response</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 65)" onmouseover="showTip(event, 'fs27', 65)" class="i">app</span> <span onmouseout="hideTip(event, 'fs9', 66)" onmouseover="showTip(event, 'fs9', 66)" class="i">request</span>
-    <span onmouseout="hideTip(event, 'fs34', 67)" onmouseover="showTip(event, 'fs34', 67)" class="i">printfn</span> <span class="s">&quot;</span><span class="s">Received</span><span class="s"> </span><span class="s">a</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s"> </span><span class="s">request</span><span class="s"> </span><span class="s">from</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s">.</span><span class="s"> </span><span class="s">Responded</span><span class="s"> </span><span class="s">in</span><span class="s"> </span><span class="s">%</span><span class="s">i</span><span class="s"> </span><span class="s">ms</span><span class="s">.</span><span class="s">&quot;</span>
-            <span onmouseout="hideTip(event, 'fs9', 68)" onmouseover="showTip(event, 'fs9', 68)" class="i">request</span><span class="o">.</span><span class="i">Method</span><span class="o">.</span><span class="i">Method</span>
-            <span onmouseout="hideTip(event, 'fs9', 69)" onmouseover="showTip(event, 'fs9', 69)" class="i">request</span><span class="o">.</span><span class="i">RequestUri</span><span class="o">.</span><span class="i">PathAndQuery</span>
-            <span onmouseout="hideTip(event, 'fs28', 70)" onmouseover="showTip(event, 'fs28', 70)" class="i">sw</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 71)" onmouseover="showTip(event, 'fs35', 71)" class="i">ElapsedMilliseconds</span>
-    <span onmouseout="hideTip(event, 'fs28', 72)" onmouseover="showTip(event, 'fs28', 72)" class="i">sw</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs36', 73)" onmouseover="showTip(event, 'fs36', 73)" class="i">Reset</span>()
-    <span class="k">return</span> <span onmouseout="hideTip(event, 'fs33', 74)" onmouseover="showTip(event, 'fs33', 74)" class="i">response</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 63)" onmouseover="showTip(event, 'fs27', 63)" class="i">log</span> <span onmouseout="hideTip(event, 'fs28', 64)" onmouseover="showTip(event, 'fs28', 64)" class="i">app</span> <span class="o">=</span> <span class="k">fun</span> (<span onmouseout="hideTip(event, 'fs9', 65)" onmouseover="showTip(event, 'fs9', 65)" class="i">request</span> <span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs11', 66)" onmouseover="showTip(event, 'fs11', 66)" class="i">async</span> {
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 67)" onmouseover="showTip(event, 'fs29', 67)" class="i">sw</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs30', 68)" onmouseover="showTip(event, 'fs30', 68)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs31', 69)" onmouseover="showTip(event, 'fs31', 69)" class="i">Diagnostics</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs32', 70)" onmouseover="showTip(event, 'fs32', 70)" class="i">Stopwatch</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs33', 71)" onmouseover="showTip(event, 'fs33', 71)" class="i">StartNew</span>()
+    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs34', 72)" onmouseover="showTip(event, 'fs34', 72)" class="i">response</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 73)" onmouseover="showTip(event, 'fs28', 73)" class="i">app</span> <span onmouseout="hideTip(event, 'fs9', 74)" onmouseover="showTip(event, 'fs9', 74)" class="i">request</span>
+    <span onmouseout="hideTip(event, 'fs35', 75)" onmouseover="showTip(event, 'fs35', 75)" class="i">printfn</span> <span class="s">&quot;</span><span class="s">Received</span><span class="s"> </span><span class="s">a</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s"> </span><span class="s">request</span><span class="s"> </span><span class="s">from</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s">.</span><span class="s"> </span><span class="s">Responded</span><span class="s"> </span><span class="s">in</span><span class="s"> </span><span class="s">%</span><span class="s">i</span><span class="s"> </span><span class="s">ms</span><span class="s">.</span><span class="s">&quot;</span>
+            <span onmouseout="hideTip(event, 'fs9', 76)" onmouseover="showTip(event, 'fs9', 76)" class="i">request</span><span class="o">.</span><span class="i">Method</span><span class="o">.</span><span class="i">Method</span>
+            <span onmouseout="hideTip(event, 'fs9', 77)" onmouseover="showTip(event, 'fs9', 77)" class="i">request</span><span class="o">.</span><span class="i">RequestUri</span><span class="o">.</span><span class="i">PathAndQuery</span>
+            <span onmouseout="hideTip(event, 'fs29', 78)" onmouseover="showTip(event, 'fs29', 78)" class="i">sw</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs36', 79)" onmouseover="showTip(event, 'fs36', 79)" class="i">ElapsedMilliseconds</span>
+    <span onmouseout="hideTip(event, 'fs29', 80)" onmouseover="showTip(event, 'fs29', 80)" class="i">sw</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs37', 81)" onmouseover="showTip(event, 'fs37', 81)" class="i">Reset</span>()
+    <span class="k">return</span> <span onmouseout="hideTip(event, 'fs34', 82)" onmouseover="showTip(event, 'fs34', 82)" class="i">response</span>
 }</pre>
 </td>
 </tr>
@@ -297,7 +301,7 @@ use the <code>register</code> function, passing in the resources and the instanc
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="i">register</span> [<span onmouseout="hideTip(event, 'fs25', 75)" onmouseover="showTip(event, 'fs25', 75)" class="i">resource</span>] <span class="i">config</span></pre>
+<span class="i">register</span> [<span onmouseout="hideTip(event, 'fs26', 83)" onmouseover="showTip(event, 'fs26', 83)" class="i">resource</span>] <span class="i">config</span></pre>
 </td>
 </tr>
 </table>
@@ -319,28 +323,29 @@ adds a <code>DelegatingHandler</code> instance to the route's <code>HttpConfigur
 <div class="tip" id="fs12">member AsyncBuilder.Return : value:&#39;T -&gt; Async&lt;&#39;T&gt;</div>
 <div class="tip" id="fs13">val echo : request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.echo</div>
 <div class="tip" id="fs14">val content : obj</div>
-<div class="tip" id="fs15">val echo : request:&#39;a -&gt; &#39;b<br /><br />Full name: Tutorial.echo</div>
-<div class="tip" id="fs16">val echo : obj<br /><br />Full name: Tutorial.echo</div>
-<div class="tip" id="fs17">val request : obj</div>
-<div class="tip" id="fs18">val echo2Transform : (&#39;a -&gt; &#39;a)<br /><br />Full name: Tutorial.echo2Transform</div>
-<div class="tip" id="fs19">val id : x:&#39;T -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.Operators.id</div>
-<div class="tip" id="fs20">val echo2ReadRequest : request:&#39;a -&gt; &#39;b<br /><br />Full name: Tutorial.echo2ReadRequest</div>
-<div class="tip" id="fs21">val echo2Respond : body:&#39;a -&gt; &#39;b<br /><br />Full name: Tutorial.echo2Respond</div>
-<div class="tip" id="fs22">val body : &#39;a</div>
-<div class="tip" id="fs23">val echo2 : request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.echo2</div>
-<div class="tip" id="fs24">val body : obj</div>
-<div class="tip" id="fs25">val resource : obj<br /><br />Full name: Tutorial.resource</div>
-<div class="tip" id="fs26">val log : app:(&#39;a -&gt; Async&lt;&#39;b&gt;) -&gt; request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.log</div>
-<div class="tip" id="fs27">val app : (&#39;a -&gt; Async&lt;&#39;b&gt;)</div>
-<div class="tip" id="fs28">val sw : System.Diagnostics.Stopwatch</div>
-<div class="tip" id="fs29">namespace System</div>
-<div class="tip" id="fs30">namespace System.Diagnostics</div>
-<div class="tip" id="fs31">Multiple items<br />type Stopwatch =<br />&#160;&#160;new : unit -&gt; Stopwatch<br />&#160;&#160;member Elapsed : TimeSpan<br />&#160;&#160;member ElapsedMilliseconds : int64<br />&#160;&#160;member ElapsedTicks : int64<br />&#160;&#160;member IsRunning : bool<br />&#160;&#160;member Reset : unit -&gt; unit<br />&#160;&#160;member Restart : unit -&gt; unit<br />&#160;&#160;member Start : unit -&gt; unit<br />&#160;&#160;member Stop : unit -&gt; unit<br />&#160;&#160;static val Frequency : int64<br />&#160;&#160;...<br /><br />Full name: System.Diagnostics.Stopwatch<br /><br />--------------------<br />System.Diagnostics.Stopwatch() : unit</div>
-<div class="tip" id="fs32">System.Diagnostics.Stopwatch.StartNew() : System.Diagnostics.Stopwatch</div>
-<div class="tip" id="fs33">val response : &#39;b</div>
-<div class="tip" id="fs34">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
-<div class="tip" id="fs35">property System.Diagnostics.Stopwatch.ElapsedMilliseconds: int64</div>
-<div class="tip" id="fs36">System.Diagnostics.Stopwatch.Reset() : unit</div>
+<div class="tip" id="fs15">static member Async.AwaitTask : task:System.Threading.Tasks.Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt;</div>
+<div class="tip" id="fs16">val echo : request:&#39;a -&gt; &#39;b<br /><br />Full name: Tutorial.echo</div>
+<div class="tip" id="fs17">val echo : obj<br /><br />Full name: Tutorial.echo</div>
+<div class="tip" id="fs18">val request : obj</div>
+<div class="tip" id="fs19">val echo2Transform : (&#39;a -&gt; &#39;a)<br /><br />Full name: Tutorial.echo2Transform</div>
+<div class="tip" id="fs20">val id : x:&#39;T -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.Operators.id</div>
+<div class="tip" id="fs21">val echo2ReadRequest : request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.echo2ReadRequest</div>
+<div class="tip" id="fs22">val echo2Respond : body:&#39;a -&gt; &#39;b<br /><br />Full name: Tutorial.echo2Respond</div>
+<div class="tip" id="fs23">val body : &#39;a</div>
+<div class="tip" id="fs24">val echo2 : request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.echo2</div>
+<div class="tip" id="fs25">val body : obj</div>
+<div class="tip" id="fs26">val resource : obj<br /><br />Full name: Tutorial.resource</div>
+<div class="tip" id="fs27">val log : app:(&#39;a -&gt; Async&lt;&#39;b&gt;) -&gt; request:&#39;a -&gt; Async&lt;&#39;b&gt;<br /><br />Full name: Tutorial.log</div>
+<div class="tip" id="fs28">val app : (&#39;a -&gt; Async&lt;&#39;b&gt;)</div>
+<div class="tip" id="fs29">val sw : System.Diagnostics.Stopwatch</div>
+<div class="tip" id="fs30">namespace System</div>
+<div class="tip" id="fs31">namespace System.Diagnostics</div>
+<div class="tip" id="fs32">Multiple items<br />type Stopwatch =<br />&#160;&#160;new : unit -&gt; Stopwatch<br />&#160;&#160;member Elapsed : TimeSpan<br />&#160;&#160;member ElapsedMilliseconds : int64<br />&#160;&#160;member ElapsedTicks : int64<br />&#160;&#160;member IsRunning : bool<br />&#160;&#160;member Reset : unit -&gt; unit<br />&#160;&#160;member Restart : unit -&gt; unit<br />&#160;&#160;member Start : unit -&gt; unit<br />&#160;&#160;member Stop : unit -&gt; unit<br />&#160;&#160;static val Frequency : int64<br />&#160;&#160;...<br /><br />Full name: System.Diagnostics.Stopwatch<br /><br />--------------------<br />System.Diagnostics.Stopwatch() : unit</div>
+<div class="tip" id="fs33">System.Diagnostics.Stopwatch.StartNew() : System.Diagnostics.Stopwatch</div>
+<div class="tip" id="fs34">val response : &#39;b</div>
+<div class="tip" id="fs35">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
+<div class="tip" id="fs36">property System.Diagnostics.Stopwatch.ElapsedMilliseconds: int64</div>
+<div class="tip" id="fs37">System.Diagnostics.Stopwatch.Reset() : unit</div>
 
         </div>
         <div class="span3">
