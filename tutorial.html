@@ -68,50 +68,62 @@ applications to specific methods or uri patterns.</p>
 <p>A "Hello, world!" application using these signatures would look like the following:</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
-<span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 17)" onmouseover="showTip(event, 'fs8', 17)" class="i">helloWorld</span> <span onmouseout="hideTip(event, 'fs9', 18)" onmouseover="showTip(event, 'fs9', 18)" class="i">request</span> <span class="o">=</span>
     <span class="i">OK</span> <span onmouseout="hideTip(event, 'fs10', 19)" onmouseover="showTip(event, 'fs10', 19)" class="i">ignore</span> <span class="o">&lt;|</span> <span class="i">Str</span> <span class="s">&quot;</span><span class="s">Hello</span><span class="s">,</span><span class="s"> </span><span class="s">world</span><span class="s">!</span><span class="s">&quot;</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 20)" onmouseover="showTip(event, 'fs11', 20)" class="i">async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 21)" onmouseover="showTip(event, 'fs12', 21)" class="i">Return</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 20)" onmouseover="showTip(event, 'fs11', 20)" class="i">async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 21)" onmouseover="showTip(event, 'fs12', 21)" class="i">Return</span></pre>
+</td>
+</tr>
+</table>
 
-<span class="c">// A simple echo handler that returns the same input as it received might look like the following:</span>
+<p>A simple echo handler that returns the same input as it received might look like the following:</p>
 
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="i">echo</span> (<span onmouseout="hideTip(event, 'fs9', 23)" onmouseover="showTip(event, 'fs9', 23)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 24)" onmouseover="showTip(event, 'fs11', 24)" class="i">async</span> {
     <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs14', 25)" onmouseover="showTip(event, 'fs14', 25)" class="i">content</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 26)" onmouseover="showTip(event, 'fs9', 26)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()
     <span class="k">return</span> <span class="i">respond</span> <span class="i">HttpStatusCode</span><span class="o">.</span><span class="i">OK</span>
            <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span>
            <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">StringContent</span>(<span onmouseout="hideTip(event, 'fs14', 27)" onmouseover="showTip(event, 'fs14', 27)" class="i">content</span>)
-}
+}</pre>
+</td>
+</tr>
+</table>
 
-<span class="c">// or just:</span>
+<p>or just:</p>
 
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 28)" onmouseover="showTip(event, 'fs15', 28)" class="i">echo</span> (<span onmouseout="hideTip(event, 'fs9', 29)" onmouseover="showTip(event, 'fs9', 29)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span>
-    <span class="i">OK</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs9', 30)" onmouseover="showTip(event, 'fs9', 30)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()
+    <span class="i">OK</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs9', 30)" onmouseover="showTip(event, 'fs9', 30)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()</pre>
+</td>
+</tr>
+</table>
 
-<span class="c">// If you want to provide content negotiation, use:</span>
+<p>If you want to provide content negotiation, use:</p>
 
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 31)" onmouseover="showTip(event, 'fs16', 31)" class="i">echo</span> <span class="o">=</span> <span class="i">runConneg</span> <span class="i">formatters</span> <span class="o">&lt;|</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs17', 32)" onmouseover="showTip(event, 'fs17', 32)" class="i">request</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs17', 33)" onmouseover="showTip(event, 'fs17', 33)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()</pre>
 </td>
 </tr>
@@ -171,19 +183,23 @@ within the actual computation, or <code>echo2Transform</code> in this example.</
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l">1: </span>
 <span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-<span class="l">7: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 36)" onmouseover="showTip(event, 'fs20', 36)" class="i">echo2ReadRequest</span> (<span onmouseout="hideTip(event, 'fs9', 37)" onmouseover="showTip(event, 'fs9', 37)" class="i">request</span><span class="o">:</span> <span class="i">HttpRequestMessage</span>) <span class="o">=</span>
-    <span onmouseout="hideTip(event, 'fs9', 38)" onmouseover="showTip(event, 'fs9', 38)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()
+    <span onmouseout="hideTip(event, 'fs9', 38)" onmouseover="showTip(event, 'fs9', 38)" class="i">request</span><span class="o">.</span><span class="i">Content</span><span class="o">.</span><span class="i">AsyncReadAsString</span>()</pre>
+</td>
+</tr>
+</table>
 
-<span class="c">// The `echo2Respond` maps the outgoing message body to an HTTP response.</span>
+<p>The <code>echo2Respond</code> maps the outgoing message body to an HTTP response.</p>
 
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 39)" onmouseover="showTip(event, 'fs21', 39)" class="i">echo2Respond</span> <span onmouseout="hideTip(event, 'fs22', 40)" onmouseover="showTip(event, 'fs22', 40)" class="i">body</span> <span class="o">=</span>
     <span class="i">respond</span> <span class="o">&lt;|</span> <span class="i">``Content-Type``</span> <span class="s">&quot;</span><span class="s">text</span><span class="s">/</span><span class="s">plain</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs22', 41)" onmouseover="showTip(event, 'fs22', 41)" class="i">body</span></pre>
 </td>
@@ -200,10 +216,6 @@ about which it cares and isn't bothered by the transformations.</p>
 <span class="l">3: </span>
 <span class="l">4: </span>
 <span class="l">5: </span>
-<span class="l">6: </span>
-<span class="l">7: </span>
-<span class="l">8: </span>
-<span class="l">9: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
@@ -211,10 +223,18 @@ about which it cares and isn't bothered by the transformations.</p>
     <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs14', 45)" onmouseover="showTip(event, 'fs14', 45)" class="i">content</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 46)" onmouseover="showTip(event, 'fs20', 46)" class="i">echo2ReadRequest</span> <span onmouseout="hideTip(event, 'fs9', 47)" onmouseover="showTip(event, 'fs9', 47)" class="i">request</span>
     <span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 48)" onmouseover="showTip(event, 'fs24', 48)" class="i">body</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 49)" onmouseover="showTip(event, 'fs18', 49)" class="i">echo2Transform</span> <span onmouseout="hideTip(event, 'fs14', 50)" onmouseover="showTip(event, 'fs14', 50)" class="i">content</span>
     <span class="k">return</span> <span onmouseout="hideTip(event, 'fs21', 51)" onmouseover="showTip(event, 'fs21', 51)" class="i">echo2Respond</span> <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">StringContent</span>(<span onmouseout="hideTip(event, 'fs24', 52)" onmouseover="showTip(event, 'fs24', 52)" class="i">body</span>)
-}
+}</pre>
+</td>
+</tr>
+</table>
 
-<span class="c">// Create a `HttpResource` instance at the root of the site that responds to `POST`.</span>
+<p>Create a <code>HttpResource</code> instance at the root of the site that responds to <code>POST</code>.</p>
 
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 53)" onmouseover="showTip(event, 'fs25', 53)" class="i">resource</span> <span class="o">=</span> <span class="i">route</span> <span class="s">&quot;</span><span class="s">/</span><span class="s">&quot;</span> <span class="o">&lt;|</span> <span class="i">post</span> <span onmouseout="hideTip(event, 'fs23', 54)" onmouseover="showTip(event, 'fs23', 54)" class="i">echo2</span></pre>
 </td>
 </tr>
