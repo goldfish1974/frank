@@ -1,5 +1,6 @@
 # Frank
 
+[![Build status](https://ci.appveyor.com/api/projects/status/pt3i73qxyxgjax5d?svg=true)](https://ci.appveyor.com/project/frank-fs/frank)
 [![Build Status](https://travis-ci.org/frank-fs/frank.png?branch=master)](https://travis-ci.org/frank-fs/frank)
 
 Frank is resource-oriented wrapper library for working with the [Web API](http://asp.net/web-api/) and is developed in [F#](http://fsharp.net/).
@@ -158,8 +159,8 @@ adds a `DelegatingHandler` instance to the route's `HttpConfiguration.MessageHan
 
 ## TODO
 
-* Loads of documentation
-* Integrate with [Dyfrig](https://github.com/fsprojects/dyfrig)
+* <s>[Convert to .NET Core](https://github.com/frank-fs/frank/issues/47)</s>
+* Update documentation, especially use with [Azure Functions](https://azure.microsoft.com/en-us/documentation/articles/functions-reference-fsharp/)
 
 ## Team
 

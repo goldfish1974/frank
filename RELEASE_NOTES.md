@@ -1,3 +1,25 @@
+### New in 4.0.0 - (Released 2018/03/27)
+* Update to .NETStandard 2.0 and .NET 4.6.1
+* Now more easily used with Azure Functions or ASP.NET Core
+
+### New in 3.1.1 - (Released 2014/12/07)
+* Use FSharp.Core from NuGet
+
+### New in 3.1.0 - (Released 2014/10/13)
+* Remove dependency on F#x
+* Signatures remain equivalent, but some type aliases have been removed.
+
+### New in 3.0.19 - (Released 2014/10/13)
+* Merge all implementations into one file and add .fsi signature
+
+### New in 3.0.18 - (Released 2014/10/12)
+* Use Paket for package management
+* FSharp.Core 4.3.1.0
+* NOTE: Jumped to 3.0.18 due to bad build script configuration
+
+### New in 3.0.0 - (Released 2014/05/24)
+* Updated dependencies to Web API 2.1 and .NET 4.5
+
 ### New in 2.0.3 - (Released 2014/02/07)
 * Add SourceLink to link to GitHub sources (courtesy Cameron Taggart).
 
